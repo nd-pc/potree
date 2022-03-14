@@ -29,8 +29,14 @@ varying vec3	vColor;
 varying float	vLogDepth;
 varying vec3	vViewPosition;
 varying float	vRadius;
-varying float 	vPointSize;
-varying vec3 	vPosition;
+varying float	vPointSize;
+varying vec3	vPosition;
+
+// CLOI
+#if defined(use_cloi)
+	uniform float cloiValue;
+	varying float	vImp;
+#endif
 
 
 float specularStrength = 1.0;
@@ -40,6 +46,8 @@ void main() {
 	// gl_FragColor = vec4(vColor, 1.0);
 
 	vec3 color = vColor;
+	vec4 finalColor = vec4(color, 1.0);
+
 	float depth = gl_FragCoord.z;
 
 	#if defined(circle_point_shape) || defined(paraboloid_point_shape) 
@@ -55,9 +63,9 @@ void main() {
 	#endif
 		
 	#if defined color_type_indices
-		gl_FragColor = vec4(color, uPCIndex / 255.0);
+		finalColor = vec4(color, uPCIndex / 255.0);
 	#else
-		gl_FragColor = vec4(color, uOpacity);
+		finalColor = vec4(color, uOpacity);
 	#endif
 
 	#if defined paraboloid_point_shape
@@ -77,12 +85,12 @@ void main() {
 		#endif
 		
 		#if defined(use_edl)
-			gl_FragColor.a = log2(linearDepth);
+			finalColor.a = log2(linearDepth);
 		#endif
 		
 	#else
 		#if defined(use_edl)
-			gl_FragColor.a = vLogDepth;
+			finalColor.a = vLogDepth;
 		#endif
 	#endif
 
@@ -91,9 +99,19 @@ void main() {
 		float weight = max(0.0, 1.0 - distance);
 		weight = pow(weight, 1.5);
 
-		gl_FragColor.a = weight;
-		gl_FragColor.xyz = gl_FragColor.xyz * weight;
+		finalColor.a = weight;
+		finalColor.xyz = finalColor.xyz * weight;
 	#endif
+
+	// CLOI
+	#if defined(use_cloi)
+		float impOpacity = (vImp > cloiValue) ? 1.0 : 0.0;
+		finalColor.r = cloiValue / 8.0;
+	#endif	
+
+	// finalColor.a = cloiValue / 8.0;
+
+	gl_FragColor = finalColor;
 
 	//gl_FragColor = vec4(0.0, 0.7, 0.0, 1.0);
 	

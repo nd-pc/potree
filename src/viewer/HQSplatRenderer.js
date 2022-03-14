@@ -1,11 +1,11 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {NormalizationMaterial} from "../materials/NormalizationMaterial.js";
-import {NormalizationEDLMaterial} from "../materials/NormalizationEDLMaterial.js";
-import {PointCloudMaterial} from "../materials/PointCloudMaterial.js";
-import {PointShape} from "../defines.js";
-import {SphereVolume} from "../utils/Volume.js";
-import {Utils} from "../utils.js";
+import { PointShape } from "../defines.js";
+import { NormalizationEDLMaterial } from "../materials/NormalizationEDLMaterial.js";
+import { NormalizationMaterial } from "../materials/NormalizationMaterial.js";
+import { PointCloudMaterial } from "../materials/PointCloudMaterial.js";
+import { Utils } from "../utils.js";
+import { SphereVolume } from "../utils/Volume.js";
 
 
 export class HQSplatRenderer{
@@ -122,16 +122,30 @@ export class HQSplatRenderer{
 
 			if(!this.attributeMaterials.has(pointcloud)){
 				let attributeMaterial = new PointCloudMaterial();
+
+				// CLOI
+				if(this.viewer.useCLOI) {
+					attributeMaterial.setDefine("use_cloi", "#define use_cloi");
+				}
+
 				this.attributeMaterials.set(pointcloud, attributeMaterial);
+				
 			}
+
 
 			if(!this.depthMaterials.has(pointcloud)){
 				let depthMaterial = new PointCloudMaterial();
 
 				depthMaterial.setDefine("depth_pass", "#define hq_depth_pass");
 				depthMaterial.setDefine("use_edl", "#define use_edl");
+				
+				// CLOI
+				if(this.viewer.useCLOI) {
+					depthMaterial.setDefine("use_cloi", "#define use_cloi");
+				}
 
 				this.depthMaterials.set(pointcloud, depthMaterial);
+				
 			}
 		}
 
@@ -168,6 +182,9 @@ export class HQSplatRenderer{
 				depthMaterial.clipMethod = material.clipMethod;
 				depthMaterial.setClipBoxes(material.clipBoxes);
 				depthMaterial.setClipPolygons(material.clipPolygons);
+
+				// CLOI
+				depthMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
 
 				pointcloud.material = depthMaterial;
 			}
@@ -236,6 +253,9 @@ export class HQSplatRenderer{
 				attributeMaterial.setClipBoxes(material.clipBoxes);
 				attributeMaterial.setClipPolygons(material.clipPolygons);
 
+				// CLOI
+				attributeMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
+
 				pointcloud.material = attributeMaterial;
 			}
 			
@@ -285,6 +305,9 @@ export class HQSplatRenderer{
 
 		{ // NORMALIZATION PASS
 			let normalizationMaterial = this.useEDL ? this.normalizationEDLMaterial : this.normalizationMaterial;
+			
+			// CLOI
+			normalizationMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
 
 			if(this.useEDL){
 				normalizationMaterial.uniforms.edlStrength.value = viewer.edlStrength;

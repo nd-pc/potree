@@ -23,7 +23,8 @@ for (let obj in PointAttributeTypes) {
 	i++;
 }
 
-export {PointAttributeTypes};
+export { PointAttributeTypes };
+export { PointAttribute };
 
 
 class PointAttribute{
@@ -86,7 +87,9 @@ PointAttribute.SPACING = new PointAttribute(
 PointAttribute.GPS_TIME = new PointAttribute(
 	"GPS_TIME", PointAttributeTypes.DATA_TYPE_DOUBLE, 1);
 
-export {PointAttribute};
+PointAttribute.IMP = new PointAttribute(
+	"IMP", PointAttributeTypes.DATA_TYPE_FLOAT, 1);
+
 
 export class PointAttributes{
 

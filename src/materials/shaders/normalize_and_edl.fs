@@ -21,6 +21,12 @@ uniform float radius;
 
 varying vec2 vUv;
 
+// CLOI
+#if defined(use_cloi)
+	uniform float cloiValue;
+	varying float	vImp;
+#endif
+
 float response(float depth){
 	vec2 uvRadius = radius / vec2(screenWidth, screenHeight);
 	
@@ -54,11 +60,17 @@ void main() {
 		discard;
 	}
 	
-	vec4 color = texture2D(uWeightMap, vUv); 
-	color = color / color.w;
-	color = color * shade;
+	vec4 finalColor = texture2D(uWeightMap, vUv); 
+	finalColor = finalColor / finalColor.w;
+	finalColor = finalColor * shade;
+	
+	// CLOI
+	#if defined(use_cloi)
+		float impOpacity = (vImp > cloiValue) ? color.a : 0.0;
+		finalColor.r = cloiValue / 8.0;
+	#endif
 
-	gl_FragColor = vec4(color.xyz, 1.0); 
+	gl_FragColor = vec4(finalColor.rgb, 1.0); 
 
 	gl_FragDepthEXT = depth;
 }

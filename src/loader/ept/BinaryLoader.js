@@ -1,6 +1,6 @@
 
 import * as THREE from "../../../libs/three.js/build/three.module.js";
-import {XHRFactory} from "../../XHRFactory.js";
+import { XHRFactory } from "../../XHRFactory.js";
 
 export class EptBinaryLoader {
 	extension() {
@@ -81,6 +81,11 @@ export class EptBinaryLoader {
 				let pointSourceId = new Uint16Array(e.data.pointSourceId);
 				g.setAttribute('source id',
 						new THREE.BufferAttribute(pointSourceId, 1));
+			}
+			if (e.data.imp) {
+				let imp = new Float32Array(e.data.imp);
+				g.setAttribute('imp',
+						new THREE.BufferAttribute(imp, 1));
 			}
 
 			g.attributes.indices.normalized = true;

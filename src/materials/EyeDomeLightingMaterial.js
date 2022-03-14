@@ -1,6 +1,6 @@
 
+import { Shaders } from "../../build/shaders/shaders.js";
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Shaders} from "../../build/shaders/shaders.js";
 
 //
 // Algorithm by Christian Boucheny
@@ -29,6 +29,9 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 			uEDLDepth:      { type: 't', 	value: null },
 			opacity:        { type: 'f',	value: 1.0 },
 			uProj:          { type: "Matrix4fv", value: [] },
+
+			// CLOI
+			cloiValue:		{ type: "f", value: 8.0}
 		};
 
 		this.setValues({

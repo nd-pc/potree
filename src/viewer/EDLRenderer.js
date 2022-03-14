@@ -1,9 +1,9 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {PointCloudSM} from "../utils/PointCloudSM.js";
-import {EyeDomeLightingMaterial} from "../materials/EyeDomeLightingMaterial.js";
-import {SphereVolume} from "../utils/Volume.js";
-import {Utils} from "../utils.js";
+import { EyeDomeLightingMaterial } from "../materials/EyeDomeLightingMaterial.js";
+import { Utils } from "../utils.js";
+import { PointCloudSM } from "../utils/PointCloudSM.js";
+import { SphereVolume } from "../utils/Volume.js";
 
 export class EDLRenderer{
 	constructor(viewer){
@@ -315,6 +315,8 @@ export class EDLRenderer{
 			uniforms.edlStrength.value = viewer.edlStrength;
 			uniforms.radius.value = viewer.edlRadius;
 			uniforms.opacity.value = viewer.edlOpacity; // HACK
+			
+			uniforms.cloiValue.value = viewer.cloiValue;
 			
 			Utils.screenPass.render(viewer.renderer, this.edlMaterial);
 

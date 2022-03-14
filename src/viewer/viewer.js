@@ -1,39 +1,39 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
-import {ClipTask, ClipMethod, CameraMode, LengthUnits, ElevationGradientRepeat} from "../defines.js";
-import {Renderer} from "../PotreeRenderer.js";
-import {PotreeRenderer} from "./PotreeRenderer.js";
-import {EDLRenderer} from "./EDLRenderer.js";
-import {HQSplatRenderer} from "./HQSplatRenderer.js";
-import {Scene} from "./Scene.js";
-import {ClippingTool} from "../utils/ClippingTool.js";
-import {TransformationTool} from "../utils/TransformationTool.js";
-import {Utils} from "../utils.js";
-import {MapView} from "./map.js";
-import {ProfileWindow, ProfileWindowController} from "./profile.js";
-import {BoxVolume} from "../utils/Volume.js";
-import {Features} from "../Features.js";
-import {Message} from "../utils/Message.js";
-import {Sidebar} from "./sidebar.js";
-
-import {AnnotationTool} from "../utils/AnnotationTool.js";
-import {MeasuringTool} from "../utils/MeasuringTool.js";
-import {ProfileTool} from "../utils/ProfileTool.js";
-import {VolumeTool} from "../utils/VolumeTool.js";
-
-import {InputHandler} from "../navigation/InputHandler.js";
-import {NavigationCube} from "./NavigationCube.js";
-import {Compass} from "../utils/Compass.js";
-import {OrbitControls} from "../navigation/OrbitControls.js";
-import {FirstPersonControls} from "../navigation/FirstPersonControls.js";
-import {EarthControls} from "../navigation/EarthControls.js";
-import {DeviceOrientationControls} from "../navigation/DeviceOrientationControls.js";
-import {VRControls} from "../navigation/VRControls.js";
-import { EventDispatcher } from "../EventDispatcher.js";
-import { ClassificationScheme } from "../materials/ClassificationScheme.js";
-import { VRButton } from '../../libs/three.js/extra/VRButton.js';
-
 import JSON5 from "../../libs/json5-2.1.3/json5.mjs";
+import * as THREE from "../../libs/three.js/build/three.module.js";
+import { VRButton } from '../../libs/three.js/extra/VRButton.js';
+import { CameraMode, ClipMethod, ClipTask, ElevationGradientRepeat, LengthUnits } from "../defines.js";
+import { EventDispatcher } from "../EventDispatcher.js";
+import { Features } from "../Features.js";
+import { ClassificationScheme } from "../materials/ClassificationScheme.js";
+import { DeviceOrientationControls } from "../navigation/DeviceOrientationControls.js";
+import { EarthControls } from "../navigation/EarthControls.js";
+import { FirstPersonControls } from "../navigation/FirstPersonControls.js";
+import { InputHandler } from "../navigation/InputHandler.js";
+import { OrbitControls } from "../navigation/OrbitControls.js";
+import { VRControls } from "../navigation/VRControls.js";
+import { Renderer } from "../PotreeRenderer.js";
+import { Utils } from "../utils.js";
+import { AnnotationTool } from "../utils/AnnotationTool.js";
+import { ClippingTool } from "../utils/ClippingTool.js";
+import { Compass } from "../utils/Compass.js";
+import { MeasuringTool } from "../utils/MeasuringTool.js";
+import { Message } from "../utils/Message.js";
+import { ProfileTool } from "../utils/ProfileTool.js";
+import { TransformationTool } from "../utils/TransformationTool.js";
+import { BoxVolume } from "../utils/Volume.js";
+import { VolumeTool } from "../utils/VolumeTool.js";
+import { EDLRenderer } from "./EDLRenderer.js";
+import { HQSplatRenderer } from "./HQSplatRenderer.js";
+import { MapView } from "./map.js";
+import { NavigationCube } from "./NavigationCube.js";
+import { PotreeRenderer } from "./PotreeRenderer.js";
+import { ProfileWindow, ProfileWindowController } from "./profile.js";
+import { Scene } from "./Scene.js";
+import { Sidebar } from "./sidebar.js";
+
+
+
 
 
 export class Viewer extends EventDispatcher{
@@ -134,9 +134,14 @@ export class Viewer extends EventDispatcher{
 		this.minNodeSize = 30;
 		this.edlStrength = 1.0;
 		this.edlRadius = 1.4;
-		this.edlOpacity = 1.0;
+		this.edlOpacity = 1.0;		
 		this.useEDL = false;
+		
 		this.description = "";
+
+		// CLOI
+		this.useCLOI = false;
+		this.cloiValue = 8.0;
 
 		this.classifications = ClassificationScheme.DEFAULT;
 
@@ -295,7 +300,7 @@ export class Viewer extends EventDispatcher{
 
 		{ // set defaults
 			this.setFOV(60);
-			this.setEDLEnabled(false);
+			this.setEDLEnabled(false);			
 			this.setEDLRadius(1.4);
 			this.setEDLStrength(0.4);
 			this.setEDLOpacity(1.0);
@@ -306,6 +311,10 @@ export class Viewer extends EventDispatcher{
 			this.setFreeze(false);
 			this.setControls(this.orbitControls);
 			this.setBackground('gradient');
+
+			// CLOI
+			this.setCLOIEnabled(false);			
+			this.setCLOIValue(8.0);
 
 			this.scaleFactor = 1;
 
@@ -645,6 +654,31 @@ export class Viewer extends EventDispatcher{
 
 	getEDLOpacity () {
 		return this.edlOpacity;
+	};
+
+	// CLOI
+	setCLOIEnabled (value) {
+		value = Boolean(value);
+
+		if (this.useCLOI !== value) {
+			this.useCLOI = value;
+			this.dispatchEvent({'type': 'use_cloi_changed', 'viewer': this});
+		}
+	};
+
+	getCLOIEnabled () {
+		return this.useCLOI;
+	};
+
+	setCLOIValue (value) {
+		if (this.cloiValue !== value) {
+			this.cloiValue = value;
+			this.dispatchEvent({'type': 'cloi_value_changed', 'viewer': this});
+		}
+	};
+
+	getCLOIValue () {
+		return this.cloiValue;
 	};
 
 	setFOV (value) {
@@ -1644,6 +1678,9 @@ export class Viewer extends EventDispatcher{
 			material.uniforms.uFilterNumberOfReturnsRange.value = this.filterNumberOfReturnsRange;
 			material.uniforms.uFilterGPSTimeClipRange.value = this.filterGPSTimeRange;
 			material.uniforms.uFilterPointSourceIDClipRange.value = this.filterPointSourceIDRange;
+
+			// CLOI			
+			material.uniforms.cloiValue.value = this.cloiValue;
 
 			material.classification = this.classifications;
 			material.recomputeClassification();

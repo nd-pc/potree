@@ -1,10 +1,10 @@
 
+import { Shaders } from "../../build/shaders/shaders.js";
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Utils} from "../utils.js";
-import {Gradients} from "./Gradients.js";
-import {Shaders} from "../../build/shaders/shaders.js";
-import {ClassificationScheme} from "./ClassificationScheme.js";
-import {PointSizeType, PointShape, TreeType, ElevationGradientRepeat} from "../defines.js";
+import { ElevationGradientRepeat, PointShape, PointSizeType, TreeType } from "../defines.js";
+import { Utils } from "../utils.js";
+import { ClassificationScheme } from "./ClassificationScheme.js";
+import { Gradients } from "./Gradients.js";
 
 //
 // how to calculate the radius of a projected sphere in screen space
@@ -48,6 +48,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		this.fog = false;
 		this._treeType = treeType;
 		this._useEDL = false;
+		this._useCLOI = false;
 		this.defines = new Map();
 
 		this.ranges = new Map();
@@ -76,7 +77,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			returnNumber: { type: 'f', value: [] },
 			numberOfReturns: { type: 'f', value: [] },
 			pointSourceID: { type: 'f', value: [] },
-			indices: { type: 'fv', value: [] }
+			indices: { type: 'fv', value: [] },
+			imp: { type: 'f', value: [] }
 		};
 
 		this.uniforms = {
@@ -117,7 +119,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			diffuse:			{ type: "fv", value: [1, 1, 1] },
 			transition:			{ type: "f", value: 0.5 },
 
-			 intensityRange:		{ type: "fv", value: [Infinity, -Infinity] },
+			intensityRange:		{ type: "fv", value: [Infinity, -Infinity] },
 
 			intensity_gbc: 		{ type: "fv", value: [1, 0, 0]},
 			uRGB_gbc:	 		{ type: "fv", value: [1, 0, 0]},
@@ -150,6 +152,9 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			uFilterPointSourceIDClipRange:		{ type: "fv", value: [0, 65535]},
 			matcapTextureUniform: 	{ type: "t", value: this.matcapTexture },
 			backfaceCulling: { type: "b", value: false },
+
+			// CLOI
+			cloiValue:		{ type: "f", value: 8.0}
 		};
 
 		this.classification = ClassificationScheme.DEFAULT;
@@ -170,11 +175,11 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		if(value !== undefined && value !== null){
 			if(this.defines.get(key) !== value){
 				this.defines.set(key, value);
-				this.updateShaderSource();
 			}
 		}else{
 			this.removeDefine(key);
 		}
+		this.updateShaderSource();
 	}
 
 	removeDefine(key){
@@ -211,7 +216,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.depthTest = true;
 			this.depthWrite = true;
 			this.depthFunc = THREE.LessEqualDepth;
-		} else if (this.opacity < 1.0 && !this.useEDL) {
+		} else if (this.opacity < 1.0 && !this.useEDL ) {
 			this.blending = THREE.AdditiveBlending;
 			this.transparent = true;
 			this.depthTest = false;
@@ -252,6 +257,11 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			defines.push('#define use_edl');
 		}
 
+		// CLOI
+		if (this._useCLOI) {
+			defines.push('#define use_cloi');
+		}
+
 		if(this.activeAttributeName){
 			let attributeName = this.activeAttributeName.replace(/[^a-zA-Z0-9]/g, '_');
 
@@ -271,6 +281,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		for(let [key, value] of this.defines){
 			defines.push(value);
 		}
+
+		console.log(defines);
 
 		return defines.join("\n");
 	}
@@ -603,6 +615,32 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		if (this._useEDL !== value) {
 			this._useEDL = value;
 			this.updateShaderSource();
+		}
+	}
+
+	// CLOI
+	get useCLOI(){
+		return this._useCLOI;
+	}
+
+	set useCLOI (value) {
+		if (this._useCLOI !== value) {
+			this._useCLOI = value;
+			this.updateShaderSource();
+		}
+	}
+	
+	get cloiValue () {
+		return this.uniforms.cloiValue.value;
+	}
+
+	set cloiValue (value) {
+		if(this.uniforms.cloiValue.value !== value){
+			this.uniforms.cloiValue.value = value;
+			this.dispatchEvent({
+				type: 'material_property_changed',
+				target: this
+			});
 		}
 	}
 

@@ -1,10 +1,10 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Annotation} from "../Annotation.js";
-import {Measure} from "../utils/Measure.js";
-import {CameraAnimation} from "../modules/CameraAnimation/CameraAnimation.js";
-import {Utils} from "../utils.js";
-import {PointSizeType} from "../defines.js";
+import { Annotation } from "../Annotation.js";
+import { PointSizeType } from "../defines.js";
+import { CameraAnimation } from "../modules/CameraAnimation/CameraAnimation.js";
+import { Utils } from "../utils.js";
+import { Measure } from "../utils/Measure.js";
 
 function loadPointCloud(viewer, data){
 
@@ -210,6 +210,8 @@ function loadSettings(viewer, data){
 	viewer.setEDLEnabled(data.edlEnabled);
 	viewer.setEDLRadius(data.edlRadius);
 	viewer.setEDLStrength(data.edlStrength);
+	viewer.setCLOIEnabled(data.cloiEnabled);
+	viewer.setCLOIValue(data.cloiValue);
 	viewer.setBackground(data.background);
 	viewer.setMinNodeSize(data.minNodeSize);
 	viewer.setShowBoundingBox(data.showBoundingBoxes);

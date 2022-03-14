@@ -1,6 +1,6 @@
-import {PointCloudTreeNode} from "./PointCloudTree.js";
-import {PointAttributes, PointAttribute, PointAttributeTypes} from "./loader/PointAttributes.js";
 import * as THREE from "../libs/three.js/build/three.module.js";
+import { PointAttribute, PointAttributes, PointAttributeTypes } from "./loader/PointAttributes.js";
+import { PointCloudTreeNode } from "./PointCloudTree.js";
 
 class U {
 	static toVector3(v, offset) {
@@ -91,6 +91,7 @@ export class PointCloudEptGeometry {
 			attributes.add(new PointAttribute("number of returns", PointAttributeTypes.DATA_TYPE_UINT8, 1));
 			attributes.add(new PointAttribute("return number", PointAttributeTypes.DATA_TYPE_UINT8, 1));
 			attributes.add(new PointAttribute("source id", PointAttributeTypes.DATA_TYPE_UINT16, 1));
+			attributes.add(new PointAttribute("imp", PointAttributeTypes.DATA_TYPE_FLOAT, 1));
 
 			this.pointAttributes = attributes;
 		}

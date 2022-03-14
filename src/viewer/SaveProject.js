@@ -193,6 +193,8 @@ function createSettingsData(viewer){
 		edlEnabled: viewer.getEDLEnabled(),
 		edlRadius: viewer.getEDLRadius(),
 		edlStrength: viewer.getEDLStrength(),
+		cloiEnabled: viewer.getCLOIEnabled(),
+		cloiValue: viewer.getCLOIValue(),
 		background: viewer.getBackground(),
 		minNodeSize: viewer.getMinNodeSize(),
 		showBoundingBoxes: viewer.getShowBoundingBox(),
