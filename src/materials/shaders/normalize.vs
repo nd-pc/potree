@@ -10,7 +10,19 @@ uniform mat4 modelViewMatrix;
 
 varying vec2 vUv;
 
+// CLOI
+#if defined(use_cloi)
+	attribute float imp;
+	varying float	vImp;
+#endif
+
 void main() {
 	vUv = uv;
+	
+	// CLOI
+	#ifdef use_cloi
+		vImp = imp;		
+	#endif
+
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 }

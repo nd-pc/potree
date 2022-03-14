@@ -1,9 +1,7 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
-import {PointCloudTree} from "./PointCloudTree.js";
-import {PointCloudOctreeNode} from "./PointCloudOctree.js";
-import {PointCloudArena4DNode} from "./arena4d/PointCloudArena4D.js";
-import {PointSizeType, ClipTask, ElevationGradientRepeat} from "./defines.js";
+import { ClipTask, ElevationGradientRepeat, PointSizeType } from "./defines.js";
+import { PointCloudTree } from "./PointCloudTree.js";
 
 // Copied from three.js: WebGLRenderer.js
 function paramThreeToGL(_gl, p) {
@@ -151,6 +149,7 @@ let attributeLocations = {
 	"spacing": {name: "spacing", location: 9},
 	"gps-time":  {name: "gpsTime", location: 10},
 	"aExtra":  {name: "aExtra", location: 11},
+	"imp":  {name: "imp", location: 12},
 };
 
 class Shader {
@@ -596,7 +595,6 @@ export class Renderer {
 				gl.vertexAttribPointer(attributeLocation, bufferAttribute.itemSize, type, normalized, 0, 0);
 				gl.enableVertexAttribArray(attributeLocation);
 			}
-
 
 			webglBuffer.vbos.set(attributeName, {
 				handle: vbo,
@@ -1329,6 +1327,8 @@ export class Renderer {
 			shader.setUniform1f("wSourceID", material.weightSourceID);
 
 			shader.setUniform("backfaceCulling", material.uniforms.backfaceCulling.value);
+			
+			shader.setUniform1f("cloiValue", material.uniforms.cloiValue);
 
 			let vnWebGLTexture = this.textures.get(material.visibleNodesTexture);
 			if(vnWebGLTexture){

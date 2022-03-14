@@ -1,23 +1,23 @@
 
-import * as THREE from "../../libs/three.js/build/three.module.js";
-import {GeoJSONExporter} from "../exporter/GeoJSONExporter.js"
-import {DXFExporter} from "../exporter/DXFExporter.js"
-import {Volume, SphereVolume} from "../utils/Volume.js"
-import {PolygonClipVolume} from "../utils/PolygonClipVolume.js"
-import {PropertiesPanel} from "./PropertyPanels/PropertiesPanel.js"
-import {PointCloudTree} from "../PointCloudTree.js"
-import {Profile} from "../utils/Profile.js"
-import {Measure} from "../utils/Measure.js"
-import {Annotation} from "../Annotation.js"
-import {CameraMode, ClipTask, ClipMethod} from "../defines.js"
-import {ScreenBoxSelectTool} from "../utils/ScreenBoxSelectTool.js"
-import {Utils} from "../utils.js"
-import {CameraAnimation} from "../modules/CameraAnimation/CameraAnimation.js"
-import {HierarchicalSlider} from "./HierarchicalSlider.js"
-import {OrientedImage} from "../modules/OrientedImages/OrientedImages.js";
-import {Images360} from "../modules/Images360/Images360.js";
-
 import JSON5 from "../../libs/json5-2.1.3/json5.mjs";
+import * as THREE from "../../libs/three.js/build/three.module.js";
+import { Annotation } from "../Annotation.js";
+import { CameraMode, ClipMethod, ClipTask } from "../defines.js";
+import { DXFExporter } from "../exporter/DXFExporter.js";
+import { GeoJSONExporter } from "../exporter/GeoJSONExporter.js";
+import { CameraAnimation } from "../modules/CameraAnimation/CameraAnimation.js";
+import { Images360 } from "../modules/Images360/Images360.js";
+import { OrientedImage } from "../modules/OrientedImages/OrientedImages.js";
+import { PointCloudTree } from "../PointCloudTree.js";
+import { Utils } from "../utils.js";
+import { Measure } from "../utils/Measure.js";
+import { PolygonClipVolume } from "../utils/PolygonClipVolume.js";
+import { Profile } from "../utils/Profile.js";
+import { ScreenBoxSelectTool } from "../utils/ScreenBoxSelectTool.js";
+import { SphereVolume, Volume } from "../utils/Volume.js";
+import { HierarchicalSlider } from "./HierarchicalSlider.js";
+import { PropertiesPanel } from "./PropertyPanels/PropertiesPanel.js";
+
 
 export class Sidebar{
 
@@ -1313,6 +1313,14 @@ export class Sidebar{
 			slide: (event, ui) => { this.viewer.setEDLOpacity(ui.value); }
 		});
 
+		$('#sldCLOIValue').slider({
+			value: this.viewer.getCLOIValue(),
+			min: 0,
+			max: 8,
+			step: 0.01,
+			slide: (event, ui) => { this.viewer.setCLOIValue(ui.value); }
+		});
+
 		this.viewer.addEventListener('point_budget_changed', (event) => {
 			$('#lblPointBudget')[0].innerHTML = Utils.addCommas(this.viewer.getPointBudget());
 			sldPointBudget.slider({value: this.viewer.getPointBudget()});
@@ -1337,6 +1345,15 @@ export class Sidebar{
 			$('#sldEDLStrength').slider({value: this.viewer.getEDLStrength()});
 		});
 
+		this.viewer.addEventListener('use_cloi_changed', (event) => {
+			$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
+		});
+
+		this.viewer.addEventListener('cloi_value_changed', (event) => {
+			$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
+			$('#sldCLOIValue').slider({value: this.viewer.getCLOIValue()});
+		});
+
 		this.viewer.addEventListener('background_changed', (event) => {
 			$("input[name=background][value='" + this.viewer.getBackground() + "']").prop('checked', true);
 		});
@@ -1345,7 +1362,9 @@ export class Sidebar{
 		$('#lblFOV')[0].innerHTML = parseInt(this.viewer.getFOV());
 		$('#lblEDLRadius')[0].innerHTML = this.viewer.getEDLRadius().toFixed(1);
 		$('#lblEDLStrength')[0].innerHTML = this.viewer.getEDLStrength().toFixed(1);
+		$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
 		$('#chkEDLEnabled')[0].checked = this.viewer.getEDLEnabled();
+		$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
 		
 		{
 			let elBackground = $(`#background_options`);
@@ -1361,6 +1380,10 @@ export class Sidebar{
 
 		$('#chkEDLEnabled').click( () => {
 			this.viewer.setEDLEnabled($('#chkEDLEnabled').prop("checked"));
+		});
+
+		$('#chkCLOIEnabled').click( () => {
+			this.viewer.setCLOIEnabled($('#chkCLOIEnabled').prop("checked"));
 		});
 	}
 

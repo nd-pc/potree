@@ -112,22 +112,29 @@ uniform sampler2D visibleNodes;
 uniform sampler2D gradient;
 uniform sampler2D classificationLUT;
 
+// CLOI
+#if defined(use_cloi)
+	attribute float imp;
+	varying float	vImp;
+#endif
+
 #if defined(color_type_matcap)
-uniform sampler2D matcapTextureUniform;
+	uniform sampler2D matcapTextureUniform;
 #endif
 uniform bool backfaceCulling;
 
 #if defined(num_shadowmaps) && num_shadowmaps > 0
-uniform sampler2D uShadowMap[num_shadowmaps];
-uniform mat4 uShadowWorldView[num_shadowmaps];
-uniform mat4 uShadowProj[num_shadowmaps];
+	uniform sampler2D uShadowMap[num_shadowmaps];
+	uniform mat4 uShadowWorldView[num_shadowmaps];
+	uniform mat4 uShadowProj[num_shadowmaps];
 #endif
 
 varying vec3	vColor;
 varying float	vLogDepth;
 varying vec3	vViewPosition;
-varying float 	vRadius;
-varying float 	vPointSize;
+varying float	vRadius;
+varying float	vPointSize;
+
 
 
 float round(float number){
@@ -877,6 +884,11 @@ void main() {
 	// COLOR
 	vColor = getColor();
 	// vColor = vec3(1.0, 0.0, 0.0);
+	
+	// CLOI
+	#ifdef use_cloi
+		vImp = imp;		
+	#endif
 
 	//gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
 	//gl_Position = vec4(position.xzy / 1000.0, 1.0 );
