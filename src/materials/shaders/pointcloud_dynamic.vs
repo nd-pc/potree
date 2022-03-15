@@ -11,9 +11,9 @@ attribute vec3 position;
 
 attribute float attribute_0;
 
-uniform float uAttribute_w[NUM_ATTRIBUTES];      // composite weight
-uniform vec3  uAttribute_gbc[NUM_ATTRIBUTES];    // gamma, brightness, contrast
-uniform vec2  uAttribute_range[NUM_ATTRIBUTES];  // 
+uniform float uAttribute_w[NUM_ATTRIBUTES];		 // composite weight
+uniform vec3 uAttribute_gbc[NUM_ATTRIBUTES];	 // gamma, brightness, contrast
+uniform vec2 uAttribute_range[NUM_ATTRIBUTES]; //
 
 // filter
 
@@ -26,15 +26,10 @@ uniform mat4 uViewInv;
 uniform sampler2D gradient;
 uniform sampler2D classificationLUT;
 
-// CLOI
-#if defined(use_cloi)
-	attribute float imp;
-	varying float	vImp;
-#endif
-
 varying vec3 vColor;
 
-vec4 getColor(float value, int index){
+vec4 getColor(float value, int index)
+{
 
 	vec2 range = uAttribute_range[index];
 	vec3 gbc = uAttribute_gbc[index];
@@ -51,7 +46,8 @@ vec4 getColor(float value, int index){
 	return w;
 }
 
-vec4 getColor(vec4 value, int index){
+vec4 getColor(vec4 value, int index)
+{
 
 	vec4 color = value;
 
@@ -68,18 +64,13 @@ vec4 getColor(vec4 value, int index){
 	return color;
 }
 
-vec4 getColor(){
-	
-
+vec4 getColor()
+{
 }
 
-void main() {
-	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-
-	// CLOI
-	#ifdef use_cloi
-		vImp = imp;		
-	#endif
+void main()
+{
+	vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
 
 	gl_Position = projectionMatrix * mvPosition;
 
@@ -87,5 +78,4 @@ void main() {
 
 	// COLOR
 	vColor = getColor();
-
 }

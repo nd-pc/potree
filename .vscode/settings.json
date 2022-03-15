@@ -5,13 +5,8 @@
 		"*.fs": "cpp"
 	},
 	"files.trimTrailingWhitespace": false,
-<<<<<<< HEAD
-	"editor.fontSize": 28,
-	"editor.autoIndent": "advanced",
-=======
 	"editor.fontSize": 14,
 	"editor.autoIndent": false,
->>>>>>> settings change (14p) and delft server api example
 	"editor.detectIndentation": false,
 	"editor.insertSpaces": false,
 	"editor.minimap.enabled": false,

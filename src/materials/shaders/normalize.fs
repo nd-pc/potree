@@ -9,12 +9,6 @@ uniform sampler2D uDepthMap;
 
 varying vec2 vUv;
 
-// CLOI
-#if defined(use_cloi)
-	uniform float cloiValue;
-	varying float	vImp;
-#endif
-
 void main() {
 	float depth = texture2D(uDepthMap, vUv).r;
 	
@@ -26,12 +20,6 @@ void main() {
 
 	vec4 finalColor = texture2D(uWeightMap, vUv); 
 	finalColor = finalColor / finalColor.w;
-
-	// CLOI
-	#if defined(use_cloi)
-		float impOpacity = (vImp > cloiValue) ? color.a : 0.0;
-		finalColor.r = cloiValue / 8.0;
-	#endif
 	
 	gl_FragColor = vec4(finalColor.rgb, 1.0); 
 	
