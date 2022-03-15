@@ -73,8 +73,10 @@ export class PotreeRenderer {
 		for(let pointcloud of this.viewer.scene.pointclouds){
 			const {material} = pointcloud;
 			material.useEDL = false;
+			// CLOI
+			material.useCLOI = viewer.useCLOI;
 		}
-		
+				
 		viewer.pRenderer.render(viewer.scene.scenePointCloud, camera, null, {
 			clipSpheres: viewer.scene.volumes.filter(v => (v instanceof Potree.SphereVolume)),
 		});

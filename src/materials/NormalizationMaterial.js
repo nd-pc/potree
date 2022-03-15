@@ -10,6 +10,9 @@ export class NormalizationMaterial extends THREE.RawShaderMaterial{
 		let uniforms = {
 			uDepthMap:		{ type: 't', value: null },
 			uWeightMap:		{ type: 't', value: null },
+
+			// CLOI
+			cloiValue:		{ type: "f", value: 0}
 		};
 
 		this.setValues({

@@ -13,7 +13,10 @@ Potree.BlurMaterial = class BlurMaterial extends THREE.ShaderMaterial{
 			far: { type: 'f', value: 0 },
 			screenWidth: { type: 'f', value: 0 },
 			screenHeight: { type: 'f', value: 0 },
-			map: { type: 't', value: null }
+			map: { type: 't', value: null },
+
+			// CLOI
+			cloiValue: { type: "f", value: 8.0}
 		};
 
 		this.setValues({

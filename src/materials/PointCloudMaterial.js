@@ -48,6 +48,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		this.fog = false;
 		this._treeType = treeType;
 		this._useEDL = false;
+		// CLOI
+		this._useCLOI = false;
 		this.defines = new Map();
 
 		this.ranges = new Map();
@@ -76,7 +78,9 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			returnNumber: { type: 'f', value: [] },
 			numberOfReturns: { type: 'f', value: [] },
 			pointSourceID: { type: 'f', value: [] },
-			indices: { type: 'fv', value: [] }
+			// CLOI
+			indices: { type: 'fv', value: [] },
+			imp: { type: 'f', value: [] }
 		};
 
 		this.uniforms = {
@@ -150,6 +154,9 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			uFilterPointSourceIDClipRange:		{ type: "fv", value: [0, 65535]},
 			matcapTextureUniform: 	{ type: "t", value: this.matcapTexture },
 			backfaceCulling: { type: "b", value: false },
+
+			// CLOI
+			cloiValue:			{ type: "f", value: 8.0}
 		};
 
 		this.classification = ClassificationScheme.DEFAULT;
@@ -170,11 +177,12 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		if(value !== undefined && value !== null){
 			if(this.defines.get(key) !== value){
 				this.defines.set(key, value);
-				this.updateShaderSource();
 			}
 		}else{
 			this.removeDefine(key);
 		}
+		// CLOI
+		this.updateShaderSource();
 	}
 
 	removeDefine(key){
@@ -217,6 +225,15 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.depthTest = false;
 			this.depthWrite = true;
 			this.depthFunc = THREE.AlwaysDepth;
+		} 
+		
+		// CLOI
+		if (this.useCLOI) {
+			this.blending = THREE.AdditiveBlending;
+			this.transparent = true;
+			this.depthTest = false;
+			this.depthWrite = true;
+			this.depthFunc = THREE.AlwaysDepth;
 		}
 
 		if (this.weighted) {
@@ -250,6 +267,11 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 
 		if (this._useEDL) {
 			defines.push('#define use_edl');
+		}
+
+		// CLOI
+		if (this._useCLOI) {
+			defines.push('#define use_cloi');
 		}
 
 		if(this.activeAttributeName){
@@ -603,6 +625,35 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		if (this._useEDL !== value) {
 			this._useEDL = value;
 			this.updateShaderSource();
+		}
+	}
+
+	// CLOI
+	get useCLOI(){
+		return this._useCLOI;
+	}
+
+	// CLOI
+	set useCLOI (value) {
+		if (this._useCLOI !== value) {
+			this._useCLOI = value;
+			this.updateShaderSource();
+		}
+	}
+
+	// CLOI
+	get cloiValue () {
+		return this.uniforms.cloiValue.value;
+	}
+
+	// CLOI
+	set cloiValue (value) {
+		if(this.uniforms.cloiValue !== value){
+			this.uniforms.cloiValue = value;
+			this.dispatchEvent({
+				type: 'material_property_changed',
+				target: this
+			});
 		}
 	}
 

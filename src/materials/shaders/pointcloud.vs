@@ -112,6 +112,13 @@ uniform sampler2D visibleNodes;
 uniform sampler2D gradient;
 uniform sampler2D classificationLUT;
 
+// CLOI
+#if defined(use_cloi)
+	uniform float cloiValue;
+	attribute float imp;
+	varying float vImp;
+#endif
+
 #if defined(color_type_matcap)
 uniform sampler2D matcapTextureUniform;
 #endif
@@ -877,6 +884,12 @@ void main() {
 	// COLOR
 	vColor = getColor();
 	// vColor = vec3(1.0, 0.0, 0.0);
+
+	// CLOI
+	#ifdef use_cloi
+		float impOpacity = ((imp * 8.0) > cloiValue) ? 1.0 : 0.0;
+		vImp = impOpacity;
+	#endif
 
 	//gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
 	//gl_Position = vec4(position.xzy / 1000.0, 1.0 );

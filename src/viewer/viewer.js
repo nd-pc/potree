@@ -138,6 +138,10 @@ export class Viewer extends EventDispatcher{
 		this.useEDL = false;
 		this.description = "";
 
+		// CLOI
+		this.useCLOI = false;
+		this.cloiValue = 8.0;
+
 		this.classifications = ClassificationScheme.DEFAULT;
 
 		this.moveSpeed = 10;
@@ -306,6 +310,10 @@ export class Viewer extends EventDispatcher{
 			this.setFreeze(false);
 			this.setControls(this.orbitControls);
 			this.setBackground('gradient');
+
+			// CLOI
+			this.setCLOIEnabled(false);			
+			this.setCLOIValue(8.0);
 
 			this.scaleFactor = 1;
 
@@ -645,6 +653,34 @@ export class Viewer extends EventDispatcher{
 
 	getEDLOpacity () {
 		return this.edlOpacity;
+	};
+
+	// CLOI
+	setCLOIEnabled (value) {
+		value = Boolean(value);
+
+		if (this.useCLOI !== value) {
+			this.useCLOI = value;
+			this.dispatchEvent({'type': 'use_cloi_changed', 'viewer': this});
+		}
+	};
+
+	// CLOI
+	getCLOIEnabled () {
+		return this.useCLOI;
+	};
+
+	// CLOI
+	setCLOIValue (value) {
+		if (this.cloiValue !== value) {
+			this.cloiValue = value;
+			this.dispatchEvent({'type': 'cloi_value_changed', 'viewer': this});
+		}
+	};
+
+	// CLOI
+	getCLOIValue () {
+		return this.cloiValue;
 	};
 
 	setFOV (value) {
@@ -1644,6 +1680,9 @@ export class Viewer extends EventDispatcher{
 			material.uniforms.uFilterNumberOfReturnsRange.value = this.filterNumberOfReturnsRange;
 			material.uniforms.uFilterGPSTimeClipRange.value = this.filterGPSTimeRange;
 			material.uniforms.uFilterPointSourceIDClipRange.value = this.filterPointSourceIDRange;
+
+			// CLOI			
+			material.cloiValue = this.cloiValue;
 
 			material.classification = this.classifications;
 			material.recomputeClassification();

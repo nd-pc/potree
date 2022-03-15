@@ -85,6 +85,10 @@ PointAttribute.SPACING = new PointAttribute(
 
 PointAttribute.GPS_TIME = new PointAttribute(
 	"GPS_TIME", PointAttributeTypes.DATA_TYPE_DOUBLE, 1);
+	
+// CLOI
+PointAttribute.IMP = new PointAttribute(
+	"IMP", PointAttributeTypes.DATA_TYPE_FLOAT, 1);
 
 export {PointAttribute};
 

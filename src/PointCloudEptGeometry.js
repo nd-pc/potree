@@ -91,6 +91,8 @@ export class PointCloudEptGeometry {
 			attributes.add(new PointAttribute("number of returns", PointAttributeTypes.DATA_TYPE_UINT8, 1));
 			attributes.add(new PointAttribute("return number", PointAttributeTypes.DATA_TYPE_UINT8, 1));
 			attributes.add(new PointAttribute("source id", PointAttributeTypes.DATA_TYPE_UINT16, 1));
+			// CLOI
+			attributes.add(new PointAttribute("imp", PointAttributeTypes.DATA_TYPE_FLOAT, 1));
 
 			this.pointAttributes = attributes;
 		}

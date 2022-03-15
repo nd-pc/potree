@@ -1313,6 +1313,15 @@ export class Sidebar{
 			slide: (event, ui) => { this.viewer.setEDLOpacity(ui.value); }
 		});
 
+		// CLOI
+		$('#sldCLOIValue').slider({
+			value: this.viewer.getCLOIValue(),
+			min: 0,
+			max: 8,
+			step: 0.01,
+			slide: (event, ui) => { this.viewer.setCLOIValue(ui.value); }
+		});
+
 		this.viewer.addEventListener('point_budget_changed', (event) => {
 			$('#lblPointBudget')[0].innerHTML = Utils.addCommas(this.viewer.getPointBudget());
 			sldPointBudget.slider({value: this.viewer.getPointBudget()});
@@ -1337,6 +1346,16 @@ export class Sidebar{
 			$('#sldEDLStrength').slider({value: this.viewer.getEDLStrength()});
 		});
 
+		// CLOI
+		this.viewer.addEventListener('use_cloi_changed', (event) => {
+			$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
+		});
+
+		this.viewer.addEventListener('cloi_value_changed', (event) => {
+			$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
+			$('#sldCLOIValue').slider({value: this.viewer.getCLOIValue()});
+		});
+
 		this.viewer.addEventListener('background_changed', (event) => {
 			$("input[name=background][value='" + this.viewer.getBackground() + "']").prop('checked', true);
 		});
@@ -1346,6 +1365,9 @@ export class Sidebar{
 		$('#lblEDLRadius')[0].innerHTML = this.viewer.getEDLRadius().toFixed(1);
 		$('#lblEDLStrength')[0].innerHTML = this.viewer.getEDLStrength().toFixed(1);
 		$('#chkEDLEnabled')[0].checked = this.viewer.getEDLEnabled();
+		// CLOI
+		$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
+		$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
 		
 		{
 			let elBackground = $(`#background_options`);
@@ -1361,6 +1383,11 @@ export class Sidebar{
 
 		$('#chkEDLEnabled').click( () => {
 			this.viewer.setEDLEnabled($('#chkEDLEnabled').prop("checked"));
+		});
+
+		// CLOI
+		$('#chkCLOIEnabled').click( () => {
+			this.viewer.setCLOIEnabled($('#chkCLOIEnabled').prop("checked"));
 		});
 	}
 

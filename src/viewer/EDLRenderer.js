@@ -316,6 +316,9 @@ export class EDLRenderer{
 			uniforms.radius.value = viewer.edlRadius;
 			uniforms.opacity.value = viewer.edlOpacity; // HACK
 			
+			// CLOI
+			uniforms.cloiValue.value = viewer.cloiValue;
+			
 			Utils.screenPass.render(viewer.renderer, this.edlMaterial);
 
 			if(this.screenshot){

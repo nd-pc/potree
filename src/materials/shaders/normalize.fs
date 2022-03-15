@@ -21,7 +21,8 @@ void main() {
 	vec4 color = texture2D(uWeightMap, vUv); 
 	color = color / color.w;
 	
-	gl_FragColor = vec4(color.xyz, 1.0); 
+	// CLOI
+	gl_FragColor = vec4(color.rgb, 1.0); 
 	
 	gl_FragDepthEXT = depth;
 

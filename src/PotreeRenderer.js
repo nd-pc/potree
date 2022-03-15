@@ -151,6 +151,8 @@ let attributeLocations = {
 	"spacing": {name: "spacing", location: 9},
 	"gps-time":  {name: "gpsTime", location: 10},
 	"aExtra":  {name: "aExtra", location: 11},
+	// CLOI
+	"imp":  {name: "imp", location: 12},
 };
 
 class Shader {
@@ -1180,7 +1182,9 @@ export class Renderer {
 		let transparent = false;
 		if(params.transparent !== undefined){
 			transparent = params.transparent && material.opacity < 1;
-		}else{
+		} else if (material.useCloi) {
+			transparent = true;
+		} else {
 			transparent = material.opacity < 1;
 		}
 
@@ -1329,6 +1333,10 @@ export class Renderer {
 			shader.setUniform1f("wSourceID", material.weightSourceID);
 
 			shader.setUniform("backfaceCulling", material.uniforms.backfaceCulling.value);
+			
+			// CLOI
+			// console.log("uniform1f " + material.uniforms.cloiValue.value);
+			shader.setUniform1f("cloiValue", material.uniforms.cloiValue);
 
 			let vnWebGLTexture = this.textures.get(material.visibleNodesTexture);
 			if(vnWebGLTexture){
