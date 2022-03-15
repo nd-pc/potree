@@ -34,8 +34,8 @@ varying vec3 	vPosition;
 
 // CLOI
 #if defined(use_cloi)
-	uniform float cloiValue;
-	varying float vImp;
+	uniform float cloiThreshold;
+	varying float vCloi;
 #endif
 
 float specularStrength = 1.0;
@@ -110,10 +110,10 @@ void main() {
 
 	// CLOI
 	#if defined(use_cloi)
-		finalColor.a = vImp;
+		finalColor.a = vCloi;
 	#endif
 
-	// finalColor.a = cloiValue / 8.0;
+	// finalColor.a = cloiThreshold / 8.0;
 
 	gl_FragColor = finalColor;
 

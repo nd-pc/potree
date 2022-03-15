@@ -19,7 +19,7 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 			uWeightMap:     { type: 't',   value: null },
 
 			// CLOI
-			cloiValue:		{ type: "f", value: 8.0}
+			cloiThreshold:		{ type: "f", value: 8.0}
 		};
 
 		this.setValues({

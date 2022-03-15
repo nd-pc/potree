@@ -156,7 +156,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			backfaceCulling: { type: "b", value: false },
 
 			// CLOI
-			cloiValue:			{ type: "f", value: 8.0}
+			cloiThreshold:			{ type: "f", value: 8.0}
 		};
 
 		this.classification = ClassificationScheme.DEFAULT;
@@ -642,14 +642,14 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 	}
 
 	// CLOI
-	get cloiValue () {
-		return this.uniforms.cloiValue.value;
+	get cloiThreshold () {
+		return this.uniforms.cloiThreshold.value;
 	}
 
 	// CLOI
-	set cloiValue (value) {
-		if(this.uniforms.cloiValue !== value){
-			this.uniforms.cloiValue = value;
+	set cloiThreshold (value) {
+		if(this.uniforms.cloiThreshold !== value){
+			this.uniforms.cloiThreshold = value;
 			this.dispatchEvent({
 				type: 'material_property_changed',
 				target: this

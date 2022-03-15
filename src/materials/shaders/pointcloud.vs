@@ -114,9 +114,9 @@ uniform sampler2D classificationLUT;
 
 // CLOI
 #if defined(use_cloi)
-	uniform float cloiValue;
+	uniform float cloiThreshold;
 	attribute float imp;
-	varying float vImp;
+	varying float vCloi;
 #endif
 
 #if defined(color_type_matcap)
@@ -887,8 +887,8 @@ void main() {
 
 	// CLOI
 	#ifdef use_cloi
-		float impOpacity = ((imp * 8.0) > cloiValue) ? 1.0 : 0.0;
-		vImp = impOpacity;
+		float impOpacity = ((imp * 8.0) > cloiThreshold) ? 1.0 : 0.0;
+		vCloi = impOpacity;
 	#endif
 
 	//gl_Position = vec4(0.0, 0.0, 0.0, 1.0);

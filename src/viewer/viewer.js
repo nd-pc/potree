@@ -140,7 +140,7 @@ export class Viewer extends EventDispatcher{
 
 		// CLOI
 		this.useCLOI = false;
-		this.cloiValue = 8.0;
+		this.cloiThreshold = 8.0;
 
 		this.classifications = ClassificationScheme.DEFAULT;
 
@@ -313,7 +313,7 @@ export class Viewer extends EventDispatcher{
 
 			// CLOI
 			this.setCLOIEnabled(false);			
-			this.setCLOIValue(8.0);
+			this.setCLOIThreshold(8.0);
 
 			this.scaleFactor = 1;
 
@@ -671,16 +671,16 @@ export class Viewer extends EventDispatcher{
 	};
 
 	// CLOI
-	setCLOIValue (value) {
-		if (this.cloiValue !== value) {
-			this.cloiValue = value;
-			this.dispatchEvent({'type': 'cloi_value_changed', 'viewer': this});
+	setCLOIThreshold (value) {
+		if (this.cloiThreshold !== value) {
+			this.cloiThreshold = value;
+			this.dispatchEvent({'type': 'cloi_threshold_changed', 'viewer': this});
 		}
 	};
 
 	// CLOI
-	getCLOIValue () {
-		return this.cloiValue;
+	getCLOIThreshold () {
+		return this.cloiThreshold;
 	};
 
 	setFOV (value) {
@@ -1682,7 +1682,7 @@ export class Viewer extends EventDispatcher{
 			material.uniforms.uFilterPointSourceIDClipRange.value = this.filterPointSourceIDRange;
 
 			// CLOI			
-			material.cloiValue = this.cloiValue;
+			material.cloiThreshold = this.cloiThreshold;
 
 			material.classification = this.classifications;
 			material.recomputeClassification();

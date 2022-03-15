@@ -317,7 +317,7 @@ export class EDLRenderer{
 			uniforms.opacity.value = viewer.edlOpacity; // HACK
 			
 			// CLOI
-			uniforms.cloiValue.value = viewer.cloiValue;
+			uniforms.cloiThreshold.value = viewer.cloiThreshold;
 			
 			Utils.screenPass.render(viewer.renderer, this.edlMaterial);
 

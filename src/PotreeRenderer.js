@@ -1335,8 +1335,8 @@ export class Renderer {
 			shader.setUniform("backfaceCulling", material.uniforms.backfaceCulling.value);
 			
 			// CLOI
-			// console.log("uniform1f " + material.uniforms.cloiValue.value);
-			shader.setUniform1f("cloiValue", material.uniforms.cloiValue);
+			// console.log("uniform1f " + material.uniforms.cloiThreshold.value);
+			shader.setUniform1f("cloiThreshold", material.uniforms.cloiThreshold);
 
 			let vnWebGLTexture = this.textures.get(material.visibleNodesTexture);
 			if(vnWebGLTexture){

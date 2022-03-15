@@ -181,7 +181,7 @@ export class HQSplatRenderer{
 				depthMaterial.setClipPolygons(material.clipPolygons);
 
 				// CLOI
-				depthMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
+				depthMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
 
 				pointcloud.material = depthMaterial;
 			}
@@ -251,7 +251,7 @@ export class HQSplatRenderer{
 				attributeMaterial.setClipPolygons(material.clipPolygons);
 
 				// CLOI
-				attributeMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
+				attributeMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
 
 				pointcloud.material = attributeMaterial;
 			}
@@ -304,7 +304,7 @@ export class HQSplatRenderer{
 			let normalizationMaterial = this.useEDL ? this.normalizationEDLMaterial : this.normalizationMaterial;
 			
 			// CLOI
-			normalizationMaterial.uniforms.cloiValue.value = this.viewer.cloiValue;
+			normalizationMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
 
 			if(this.useEDL){
 				normalizationMaterial.uniforms.edlStrength.value = viewer.edlStrength;

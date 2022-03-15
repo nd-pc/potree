@@ -1314,12 +1314,12 @@ export class Sidebar{
 		});
 
 		// CLOI
-		$('#sldCLOIValue').slider({
-			value: this.viewer.getCLOIValue(),
+		$('#sldCLOIThreshold').slider({
+			value: this.viewer.getCLOIThreshold(),
 			min: 0,
 			max: 8,
 			step: 0.01,
-			slide: (event, ui) => { this.viewer.setCLOIValue(ui.value); }
+			slide: (event, ui) => { this.viewer.setCLOIThreshold(ui.value); }
 		});
 
 		this.viewer.addEventListener('point_budget_changed', (event) => {
@@ -1351,9 +1351,9 @@ export class Sidebar{
 			$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
 		});
 
-		this.viewer.addEventListener('cloi_value_changed', (event) => {
-			$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
-			$('#sldCLOIValue').slider({value: this.viewer.getCLOIValue()});
+		this.viewer.addEventListener('cloi_threshold_changed', (event) => {
+			$('#lblCLOIThreshold')[0].innerHTML = this.viewer.getCLOIThreshold().toFixed(1);
+			$('#sldCLOIThreshold').slider({value: this.viewer.getCLOIThreshold()});
 		});
 
 		this.viewer.addEventListener('background_changed', (event) => {
@@ -1366,7 +1366,7 @@ export class Sidebar{
 		$('#lblEDLStrength')[0].innerHTML = this.viewer.getEDLStrength().toFixed(1);
 		$('#chkEDLEnabled')[0].checked = this.viewer.getEDLEnabled();
 		// CLOI
-		$('#lblCLOIValue')[0].innerHTML = this.viewer.getCLOIValue().toFixed(1);
+		$('#lblCLOIThreshold')[0].innerHTML = this.viewer.getCLOIThreshold().toFixed(1);
 		$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
 		
 		{
