@@ -210,6 +210,9 @@ function loadSettings(viewer, data){
 	viewer.setEDLEnabled(data.edlEnabled);
 	viewer.setEDLRadius(data.edlRadius);
 	viewer.setEDLStrength(data.edlStrength);
+	// CLOI
+	viewer.setCLOIEnabled(data.cloiEnabled);
+	viewer.setCLOIValue(data.cloiValue);
 	viewer.setBackground(data.background);
 	viewer.setMinNodeSize(data.minNodeSize);
 	viewer.setShowBoundingBox(data.showBoundingBoxes);
