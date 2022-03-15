@@ -25,12 +25,6 @@ uniform sampler2D visibleNodes;
 varying float vLinearDepth;
 varying vec3 vColor;
 
-// CLOI
-#if defined(use_cloi)
-	attribute float imp;
-	varying float	vImp;
-#endif
-
 #define PI 3.141592653589793
 
 
@@ -138,10 +132,6 @@ float getPointSize(){
 
 
 void main() {
-	// CLOI
-	#ifdef use_cloi
-		vImp = imp;		
-	#endif
 
 	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 	vLinearDepth = gl_Position.w;

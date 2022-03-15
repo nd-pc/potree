@@ -12,6 +12,7 @@ docs/.how_to_create_your_own_pointcloud_loader.md.html
 examples/index.html
 .project
 libs/CesiumUnminified
+package-lock.json
 /examples/page.html
 /resources/icons/index.html
 /examples/page.html

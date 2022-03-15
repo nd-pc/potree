@@ -222,6 +222,14 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.depthTest = false;
 			this.depthWrite = true;
 			this.depthFunc = THREE.AlwaysDepth;
+		} 
+		
+		if (this.useCLOI) {
+			this.blending = THREE.AdditiveBlending;
+			this.transparent = true;
+			this.depthTest = false;
+			this.depthWrite = true;
+			this.depthFunc = THREE.AlwaysDepth;
 		}
 
 		if (this.weighted) {
@@ -281,8 +289,6 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		for(let [key, value] of this.defines){
 			defines.push(value);
 		}
-
-		console.log(defines);
 
 		return defines.join("\n");
 	}
@@ -635,8 +641,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 	}
 
 	set cloiValue (value) {
-		if(this.uniforms.cloiValue.value !== value){
-			this.uniforms.cloiValue.value = value;
+		if(this.uniforms.cloiValue !== value){
+			this.uniforms.cloiValue = value;
 			this.dispatchEvent({
 				type: 'material_property_changed',
 				target: this

@@ -26,12 +26,6 @@ uniform sampler2D uEDLDepth;
 
 varying vec2 vUv;
 
-// CLOI
-#if defined(use_cloi)
-	uniform float cloiValue;
-	varying float	vImp;
-#endif
-
 float response(float depth)
 {
 	vec2 uvRadius = radius / vec2(screenWidth, screenHeight);
@@ -71,12 +65,6 @@ void main()
 	float shade = exp(-res * 300.0 * edlStrength);
 
 	vec4 finalColor = vec4(cEDL.rgb * shade, opacity);
-
-	// CLOI
-	#if defined(use_cloi)
-		float impOpacity = (vImp > cloiValue) ? color.a : 0.0;
-		finalColor.r = cloiValue / 8.0;
-	#endif
 
 	gl_FragColor = finalColor;
 

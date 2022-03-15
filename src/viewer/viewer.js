@@ -1680,7 +1680,7 @@ export class Viewer extends EventDispatcher{
 			material.uniforms.uFilterPointSourceIDClipRange.value = this.filterPointSourceIDRange;
 
 			// CLOI			
-			material.uniforms.cloiValue.value = this.cloiValue;
+			material.cloiValue = this.cloiValue;
 
 			material.classification = this.classifications;
 			material.recomputeClassification();
