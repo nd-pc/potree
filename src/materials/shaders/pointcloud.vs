@@ -116,7 +116,6 @@ uniform sampler2D classificationLUT;
 #if defined(use_cloi)
 	uniform float cloiThreshold;
 	attribute float imp;
-	varying float vCloi;
 #endif
 
 #if defined(color_type_matcap)
@@ -852,6 +851,13 @@ void doClipping(){
 			gl_Position = vec4(100.0, 100.0, 100.0, 1.0);
 		}
 	}
+	
+	// CLOI
+	#if defined(use_cloi)
+		if ((imp * 8.0) < cloiThreshold) {
+			gl_Position = vec4(100.0, 100.0, 100.0, 1.0);
+		} 
+	#endif
 }
 
 
@@ -885,12 +891,6 @@ void main() {
 	vColor = getColor();
 	// vColor = vec3(1.0, 0.0, 0.0);
 
-	// CLOI
-	#ifdef use_cloi
-		float impOpacity = ((imp * 8.0) > cloiThreshold) ? 1.0 : 0.0;
-		vCloi = impOpacity;
-	#endif
-
 	//gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
 	//gl_Position = vec4(position.xzy / 1000.0, 1.0 );
 
@@ -911,7 +911,6 @@ void main() {
 		mvPosition.xyz = mvPosition.xyz * adjust;
 		gl_Position = projectionMatrix * mvPosition;
 	#endif
-
 
 	// CLIPPING
 	doClipping();
