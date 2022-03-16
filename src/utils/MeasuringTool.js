@@ -1,9 +1,12 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Measure} from "./Measure.js";
-import {Utils} from "../utils.js";
-import {CameraMode} from "../defines.js";
+import { CameraMode } from "../defines.js";
 import { EventDispatcher } from "../EventDispatcher.js";
+import { Utils } from "../utils.js";
+import { Measure } from "./Measure.js";
+import { PolygonClipVolume } from "./PolygonClipVolume.js";
+import { Profile } from "./Profile.js";
+import { Volume } from "./Volume.js";
 
 function updateAzimuth(viewer, measure){
 
@@ -154,6 +157,30 @@ export class MeasuringTool extends EventDispatcher{
 
 		viewer.scene.addEventListener('measurement_added', this.onAdd);
 		viewer.scene.addEventListener('measurement_removed', this.onRemove);
+	}
+
+	static getMeasurementIcon(measurement){
+		if (measurement instanceof Measure) {
+			if (measurement.showDistances && !measurement.showArea && !measurement.showAngles) {
+				return `${Potree.resourcePath}/icons/distance.svg`;
+			} else if (measurement.showDistances && measurement.showArea && !measurement.showAngles) {
+				return `${Potree.resourcePath}/icons/area.svg`;
+			} else if (measurement.maxMarkers === 1) {
+				return `${Potree.resourcePath}/icons/point.svg`;
+			} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
+				return `${Potree.resourcePath}/icons/angle.png`;
+			} else if (measurement.showHeight) {
+				return `${Potree.resourcePath}/icons/height.svg`;
+			} else {
+				return `${Potree.resourcePath}/icons/distance.svg`;
+			}
+		} else if (measurement instanceof Profile) {
+			return `${Potree.resourcePath}/icons/profile.svg`;
+		} else if (measurement instanceof Volume) {
+			return `${Potree.resourcePath}/icons/volume.svg`;
+		} else if (measurement instanceof PolygonClipVolume) {
+			return `${Potree.resourcePath}/icons/clip-polygon.svg`;
+		}
 	}
 
 	onSceneChange(e){
