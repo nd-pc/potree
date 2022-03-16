@@ -58,7 +58,6 @@ void main() {
 	color = color / color.w;
 	color = color * shade;
 
-	// CLOI
 	gl_FragColor = vec4(color.rgb, 1.0); 
 
 	gl_FragDepthEXT = depth;

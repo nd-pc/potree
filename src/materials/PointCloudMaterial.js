@@ -1,10 +1,10 @@
 
+import { Shaders } from "../../build/shaders/shaders.js";
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Utils} from "../utils.js";
-import {Gradients} from "./Gradients.js";
-import {Shaders} from "../../build/shaders/shaders.js";
-import {ClassificationScheme} from "./ClassificationScheme.js";
-import {PointSizeType, PointShape, TreeType, ElevationGradientRepeat} from "../defines.js";
+import { ElevationGradientRepeat, PointShape, PointSizeType, TreeType } from "../defines.js";
+import { Utils } from "../utils.js";
+import { ClassificationScheme } from "./ClassificationScheme.js";
+import { Gradients } from "./Gradients.js";
 
 //
 // how to calculate the radius of a projected sphere in screen space
@@ -78,8 +78,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			returnNumber: { type: 'f', value: [] },
 			numberOfReturns: { type: 'f', value: [] },
 			pointSourceID: { type: 'f', value: [] },
-			// CLOI
 			indices: { type: 'fv', value: [] },
+			// CLOI
 			imp: { type: 'f', value: [] }
 		};
 
@@ -220,15 +220,6 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			this.depthWrite = true;
 			this.depthFunc = THREE.LessEqualDepth;
 		} else if (this.opacity < 1.0 && !this.useEDL) {
-			this.blending = THREE.AdditiveBlending;
-			this.transparent = true;
-			this.depthTest = false;
-			this.depthWrite = true;
-			this.depthFunc = THREE.AlwaysDepth;
-		} 
-		
-		// CLOI
-		if (this.useCLOI) {
 			this.blending = THREE.AdditiveBlending;
 			this.transparent = true;
 			this.depthTest = false;
