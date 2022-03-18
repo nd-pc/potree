@@ -1,6 +1,6 @@
 
+import { Shaders } from "../../build/shaders/shaders.js";
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {Shaders} from "../../build/shaders/shaders.js";
 
 
 export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
@@ -16,10 +16,7 @@ export class NormalizationEDLMaterial extends THREE.RawShaderMaterial{
 			neighbours:     { type: '2fv', value: [] },
 			uEDLMap:        { type: 't',   value: null },
 			uDepthMap:      { type: 't',   value: null },
-			uWeightMap:     { type: 't',   value: null },
-
-			// CLOI
-			cloiThreshold:		{ type: "f", value: 8.0}
+			uWeightMap:     { type: 't',   value: null }
 		};
 
 		this.setValues({

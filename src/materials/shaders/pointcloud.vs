@@ -854,9 +854,15 @@ void doClipping(){
 	
 	// CLOI
 	#if defined(use_cloi)
-		if ((imp * 8.0) < cloiThreshold) {
+		vec4 cameraSpacePosition = modelViewMatrix * vec4(position, 1.0 );
+		float distToCamera = -cameraSpacePosition.z;
+
+		float top = (imp*8.0) * distToCamera;
+		float tmp = 8.0 - 8.0 * (top / (cloiThreshold * 1000.0));
+
+		if (imp > tmp) {
 			gl_Position = vec4(100.0, 100.0, 100.0, 1.0);
-		} 
+		}
 	#endif
 }
 

@@ -25,11 +25,12 @@ uniform float uScreenWidth;
 uniform float uScreenHeight;
 
 varying vec3 vColor;
-varying float vLogDepth;
 varying vec3 vViewPosition;
+varying vec3 vPosition;
+
+varying float vLogDepth;
 varying float vRadius;
 varying float vPointSize;
-varying vec3 vPosition;
 
 float specularStrength = 1.0;
 
@@ -56,8 +57,14 @@ void main()
 		}
 	#endif
 
+	#if defined color_type_indices
+		finalColor = vec4(color, uPCIndex / 255.0);
+	#else
+			finalColor = vec4(color, uOpacity);
+	#endif
+
 	#if defined paraboloid_point_shape
-		float wi = 0.0 - (u * u + v * v);
+		float wi = 0.0 - ( u*u + v*v);
 		vec4 pos = vec4(vViewPosition, 1.0);
 		pos.z += wi * vRadius;
 		float linearDepth = -pos.z;
@@ -66,11 +73,20 @@ void main()
 		float expDepth = pos.z;
 		depth = (pos.z + 1.0) / 2.0;
 		gl_FragDepthEXT = depth;
-	#endif
-
-	#if defined(color_type_depth)
-		color.r = linearDepth;
-		color.g = expDepth;
+		
+		#if defined(color_type_depth)
+			color.r = linearDepth;
+			color.g = expDepth;
+		#endif
+		
+		#if defined(use_edl)
+			finalColor.a = log2(linearDepth);
+		#endif
+		
+	#else
+		#if defined(use_edl)
+			finalColor.a = vLogDepth;
+		#endif
 	#endif
 
 	#if defined(weighted_splats)
@@ -78,6 +94,7 @@ void main()
 		float weight = max(0.0, 1.0 - distance);
 		weight = pow(weight, 1.5);
 
+		finalColor.a = weight;
 		finalColor.rgb = finalColor.rgb * weight;
 	#endif
 

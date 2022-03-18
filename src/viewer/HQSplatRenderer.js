@@ -1,11 +1,11 @@
 
 import * as THREE from "../../libs/three.js/build/three.module.js";
-import {NormalizationMaterial} from "../materials/NormalizationMaterial.js";
-import {NormalizationEDLMaterial} from "../materials/NormalizationEDLMaterial.js";
-import {PointCloudMaterial} from "../materials/PointCloudMaterial.js";
-import {PointShape} from "../defines.js";
-import {SphereVolume} from "../utils/Volume.js";
-import {Utils} from "../utils.js";
+import { PointShape } from "../defines.js";
+import { NormalizationEDLMaterial } from "../materials/NormalizationEDLMaterial.js";
+import { NormalizationMaterial } from "../materials/NormalizationMaterial.js";
+import { PointCloudMaterial } from "../materials/PointCloudMaterial.js";
+import { Utils } from "../utils.js";
+import { SphereVolume } from "../utils/Volume.js";
 
 
 export class HQSplatRenderer{
@@ -179,9 +179,9 @@ export class HQSplatRenderer{
 				depthMaterial.clipMethod = material.clipMethod;
 				depthMaterial.setClipBoxes(material.clipBoxes);
 				depthMaterial.setClipPolygons(material.clipPolygons);
-
+				
 				// CLOI
-				depthMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
+				depthMaterial.cloiThreshold = this.viewer.cloiThreshold;
 
 				pointcloud.material = depthMaterial;
 			}
@@ -251,7 +251,7 @@ export class HQSplatRenderer{
 				attributeMaterial.setClipPolygons(material.clipPolygons);
 
 				// CLOI
-				attributeMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
+				attributeMaterial.cloiThreshold = this.viewer.cloiThreshold;
 
 				pointcloud.material = attributeMaterial;
 			}
@@ -303,9 +303,6 @@ export class HQSplatRenderer{
 		{ // NORMALIZATION PASS
 			let normalizationMaterial = this.useEDL ? this.normalizationEDLMaterial : this.normalizationMaterial;
 			
-			// CLOI
-			normalizationMaterial.uniforms.cloiThreshold.value = this.viewer.cloiThreshold;
-
 			if(this.useEDL){
 				normalizationMaterial.uniforms.edlStrength.value = viewer.edlStrength;
 				normalizationMaterial.uniforms.radius.value = viewer.edlRadius;

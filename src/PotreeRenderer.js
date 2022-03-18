@@ -1,9 +1,7 @@
 
 import * as THREE from "../libs/three.js/build/three.module.js";
-import {PointCloudTree} from "./PointCloudTree.js";
-import {PointCloudOctreeNode} from "./PointCloudOctree.js";
-import {PointCloudArena4DNode} from "./arena4d/PointCloudArena4D.js";
-import {PointSizeType, ClipTask, ElevationGradientRepeat} from "./defines.js";
+import { ClipTask, ElevationGradientRepeat, PointSizeType } from "./defines.js";
+import { PointCloudTree } from "./PointCloudTree.js";
 
 // Copied from three.js: WebGLRenderer.js
 function paramThreeToGL(_gl, p) {
@@ -1182,8 +1180,6 @@ export class Renderer {
 		let transparent = false;
 		if(params.transparent !== undefined){
 			transparent = params.transparent && material.opacity < 1;
-		} else if (material.useCloi) {
-			transparent = true;
 		} else {
 			transparent = material.opacity < 1;
 		}
@@ -1335,7 +1331,6 @@ export class Renderer {
 			shader.setUniform("backfaceCulling", material.uniforms.backfaceCulling.value);
 			
 			// CLOI
-			// console.log("uniform1f " + material.uniforms.cloiThreshold.value);
 			shader.setUniform1f("cloiThreshold", material.uniforms.cloiThreshold);
 
 			let vnWebGLTexture = this.textures.get(material.visibleNodesTexture);
