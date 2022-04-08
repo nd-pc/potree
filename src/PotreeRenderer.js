@@ -1332,6 +1332,7 @@ export class Renderer {
 			
 			// CLOI
 			shader.setUniform1f("cloiThreshold", material.uniforms.cloiThreshold);
+			shader.setUniform1f("cloiWeight", material.uniforms.cloiWeight);
 
 			let vnWebGLTexture = this.textures.get(material.visibleNodesTexture);
 			if(vnWebGLTexture){

@@ -117,6 +117,9 @@ uniform sampler2D classificationLUT;
 	uniform float cloiThreshold;
 	attribute float imp;
 #endif
+#if defined(use_cloi_weight)
+	uniform float cloiWeight;
+#endif
 
 #if defined(color_type_matcap)
 uniform sampler2D matcapTextureUniform;
@@ -854,13 +857,32 @@ void doClipping(){
 	
 	// CLOI
 	#if defined(use_cloi)
+		float scaled_threshold = cloiThreshold / 8.0;
+
 		vec4 cameraSpacePosition = modelViewMatrix * vec4(position, 1.0 );
 		float distToCamera = -cameraSpacePosition.z;
 
-		float top = (imp*8.0) * distToCamera;
-		float tmp = 8.0 - 8.0 * (top / (cloiThreshold * 1000.0));
+		float final_imp = imp;
 
-		if (imp > tmp) {
+	#if defined(use_cloi_weight)
+		vec4 classification = getClassification();
+		// RGB:
+		// 100.0, 65.9, 0: building
+		// 62.7, 31.8, 17.6: maaiveld
+		// 49.8, 49.8, 49.8: other
+		// 0.0, 0.0, 100.0: water
+		float w = cloiWeight;
+		float c = 2.0 * classification[0] * classification[0];
+		if (c < 1.0)
+			final_imp = imp * (w - ((w - 1.0) * c));
+		else
+			final_imp = imp * ((w + 1.0 - c) / w);
+	#endif
+
+		float top = distToCamera / 1000.0;
+		float tmp = 8.0 - 8.0 * (final_imp * top / scaled_threshold);
+
+		if (tmp < final_imp) {
 			gl_Position = vec4(100.0, 100.0, 100.0, 1.0);
 		}
 	#endif

@@ -141,6 +141,8 @@ export class Viewer extends EventDispatcher{
 		// CLOI
 		this.useCLOI = false;
 		this.cloiThreshold = 8.0;
+		this.useCLOIWeight = false;
+		this.cloiWeight = 1.5;
 
 		this.classifications = ClassificationScheme.DEFAULT;
 
@@ -314,6 +316,8 @@ export class Viewer extends EventDispatcher{
 			// CLOI
 			this.setCLOIEnabled(false);			
 			this.setCLOIThreshold(8.0);
+			this.setCLOIWeightEnabled(false);			
+			this.setCLOIWeight(1.5);
 
 			this.scaleFactor = 1;
 
@@ -681,6 +685,34 @@ export class Viewer extends EventDispatcher{
 	// CLOI
 	getCLOIThreshold () {
 		return this.cloiThreshold;
+	};
+
+	// CLOI
+	setCLOIWeightEnabled (value) {
+		value = Boolean(value);
+
+		if (this.useCLOIWeight !== value) {
+			this.useCLOIWeight = value;
+			this.dispatchEvent({'type': 'use_cloi_weight_changed', 'viewer': this});
+		}
+	};
+
+	// CLOI
+	getCLOIWeightEnabled () {
+		return this.useCLOIWeight;
+	};
+
+	// CLOI
+	setCLOIWeight (value) {
+		if (this.cloiWeight !== value) {
+			this.cloiWeight = value;
+			this.dispatchEvent({'type': 'cloi_weight_changed', 'viewer': this});
+		}
+	};
+
+	// CLOI
+	getCLOIWeight () {
+		return this.cloiWeight;
 	};
 
 	setFOV (value) {
@@ -1683,6 +1715,7 @@ export class Viewer extends EventDispatcher{
 
 			// CLOI			
 			material.cloiThreshold = this.cloiThreshold;
+			material.cloiWeight = this.cloiWeight;
 
 			material.classification = this.classifications;
 			material.recomputeClassification();

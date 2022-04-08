@@ -75,6 +75,7 @@ export class PotreeRenderer {
 			material.useEDL = false;
 			// CLOI
 			material.useCLOI = viewer.useCLOI;
+			material.useCLOIWeight = viewer.useCLOIWeight;
 		}
 				
 		viewer.pRenderer.render(viewer.scene.scenePointCloud, camera, null, {

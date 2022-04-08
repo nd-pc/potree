@@ -318,6 +318,7 @@ export class EDLRenderer{
 			
 			// CLOI
 			uniforms.cloiThreshold.value = viewer.cloiThreshold;
+			uniforms.cloiWeight.value = viewer.cloiWeight;
 			
 			Utils.screenPass.render(viewer.renderer, this.edlMaterial);
 

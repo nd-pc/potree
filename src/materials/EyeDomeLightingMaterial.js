@@ -31,7 +31,8 @@ export class EyeDomeLightingMaterial extends THREE.RawShaderMaterial{
 			uProj:          { type: "Matrix4fv", value: [] },
 
 			// CLOI
-			cloiThreshold:		{ type: "f", value: 8.0}
+			cloiThreshold:	{ type: "f", value: 8.0},
+			cloiWeight:		{ type: "f", value: 1.5}
 		};
 
 		this.setValues({

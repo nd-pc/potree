@@ -1323,6 +1323,14 @@ export class Sidebar{
 			slide: (event, ui) => { this.viewer.setCLOIThreshold(ui.value); }
 		});
 
+		$('#sldCLOIWeight').slider({
+			value: this.viewer.getCLOIWeight(),
+			min: 1,
+			max: 5,
+			step: 0.01,
+			slide: (event, ui) => { this.viewer.setCLOIWeight(ui.value); }
+		});
+
 		this.viewer.addEventListener('point_budget_changed', (event) => {
 			$('#lblPointBudget')[0].innerHTML = Utils.addCommas(this.viewer.getPointBudget());
 			sldPointBudget.slider({value: this.viewer.getPointBudget()});
@@ -1357,6 +1365,15 @@ export class Sidebar{
 			$('#sldCLOIThreshold').slider({value: this.viewer.getCLOIThreshold()});
 		});
 
+		this.viewer.addEventListener('use_cloi_weight_changed', (event) => {
+			$('#chkCLOIWeightEnabled')[0].checked = this.viewer.getCLOIWeightEnabled();
+		});
+
+		this.viewer.addEventListener('cloi_weight_changed', (event) => {
+			$('#lblCLOIWeight')[0].innerHTML = this.viewer.getCLOIWeight().toFixed(1);
+			$('#sldCLOIWeight').slider({value: this.viewer.getCLOIWeight()});
+		});
+
 		this.viewer.addEventListener('background_changed', (event) => {
 			$("input[name=background][value='" + this.viewer.getBackground() + "']").prop('checked', true);
 		});
@@ -1367,8 +1384,10 @@ export class Sidebar{
 		$('#lblEDLStrength')[0].innerHTML = this.viewer.getEDLStrength().toFixed(1);
 		$('#chkEDLEnabled')[0].checked = this.viewer.getEDLEnabled();
 		// CLOI
-		$('#lblCLOIThreshold')[0].innerHTML = this.viewer.getCLOIThreshold().toFixed(1);
 		$('#chkCLOIEnabled')[0].checked = this.viewer.getCLOIEnabled();
+		$('#lblCLOIThreshold')[0].innerHTML = this.viewer.getCLOIThreshold().toFixed(1);
+		$('#chkCLOIWeightEnabled')[0].checked = this.viewer.getCLOIWeightEnabled();
+		$('#lblCLOIWeight')[0].innerHTML = this.viewer.getCLOIWeight().toFixed(1);
 		
 		{
 			let elBackground = $(`#background_options`);
@@ -1389,6 +1408,10 @@ export class Sidebar{
 		// CLOI
 		$('#chkCLOIEnabled').click( () => {
 			this.viewer.setCLOIEnabled($('#chkCLOIEnabled').prop("checked"));
+		});
+
+		$('#chkCLOIWeightEnabled').click( () => {
+			this.viewer.setCLOIWeightEnabled($('#chkCLOIWeightEnabled').prop("checked"));
 		});
 	}
 

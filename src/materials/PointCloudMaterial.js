@@ -50,6 +50,7 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		this._useEDL = false;
 		// CLOI
 		this._useCLOI = false;
+		this._useCLOIWeight = false;
 		this.defines = new Map();
 
 		this.ranges = new Map();
@@ -156,7 +157,8 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 			backfaceCulling: { type: "b", value: false },
 
 			// CLOI
-			cloiThreshold:			{ type: "f", value: 8.0}
+			cloiThreshold:		{ type: "f", value: 8.0},
+			cloiWeight:			{ type: "f", value: 1.5}
 		};
 
 		this.classification = ClassificationScheme.DEFAULT;
@@ -263,6 +265,11 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 		// CLOI
 		if (this._useCLOI) {
 			defines.push('#define use_cloi');
+		}
+
+		// CLOI
+		if (this._useCLOIWeight) {
+			defines.push('#define use_cloi_weight');
 		}
 
 		if(this.activeAttributeName){
@@ -641,6 +648,35 @@ export class PointCloudMaterial extends THREE.RawShaderMaterial {
 	set cloiThreshold (value) {
 		if(this.uniforms.cloiThreshold !== value){
 			this.uniforms.cloiThreshold = value;
+			this.dispatchEvent({
+				type: 'material_property_changed',
+				target: this
+			});
+		}
+	}
+
+	// CLOI
+	get useCLOIWeight(){
+		return this._useCLOIWeight;
+	}
+
+	// CLOI
+	set useCLOIWeight (value) {
+		if (this._useCLOIWeight !== value) {
+			this._useCLOIWeight = value;
+			this.updateShaderSource();
+		}
+	}
+
+	// CLOI
+	get cloiWeight () {
+		return this.uniforms.cloiWeight.value;
+	}
+
+	// CLOI
+	set cloiWeight (value) {
+		if(this.uniforms.cloiWeight !== value){
+			this.uniforms.cloiWeight = value;
 			this.dispatchEvent({
 				type: 'material_property_changed',
 				target: this

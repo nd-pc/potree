@@ -213,6 +213,8 @@ function loadSettings(viewer, data){
 	// CLOI
 	viewer.setCLOIEnabled(data.cloiEnabled);
 	viewer.setCLOIThreshold(data.cloiThreshold);
+	viewer.setCLOIWeightEnabled(data.cloiWeightEnabled);
+	viewer.setCLOIWeight(data.cloiWeight);
 	viewer.setBackground(data.background);
 	viewer.setMinNodeSize(data.minNodeSize);
 	viewer.setShowBoundingBox(data.showBoundingBoxes);

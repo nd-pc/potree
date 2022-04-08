@@ -127,6 +127,9 @@ export class HQSplatRenderer{
 				if(this.viewer.useCLOI) {
 					attributeMaterial.setDefine("use_cloi", "#define use_cloi");
 				}
+				if(this.viewer.useCLOIWeight) {
+					attributeMaterial.setDefine("use_cloi_weight", "#define use_cloi_weight");
+				}
 
 				this.attributeMaterials.set(pointcloud, attributeMaterial);
 			}
@@ -140,6 +143,9 @@ export class HQSplatRenderer{
 				// CLOI
 				if(this.viewer.useCLOI) {
 					depthMaterial.setDefine("use_cloi", "#define use_cloi");
+				}
+				if(this.viewer.useCLOIWeight) {
+					depthMaterial.setDefine("use_cloi_weight", "#define use_cloi_weight");
 				}
 
 				this.depthMaterials.set(pointcloud, depthMaterial);
@@ -182,6 +188,7 @@ export class HQSplatRenderer{
 				
 				// CLOI
 				depthMaterial.cloiThreshold = this.viewer.cloiThreshold;
+				depthMaterial.cloiWeight = this.viewer.cloiWeight;
 
 				pointcloud.material = depthMaterial;
 			}
@@ -252,6 +259,7 @@ export class HQSplatRenderer{
 
 				// CLOI
 				attributeMaterial.cloiThreshold = this.viewer.cloiThreshold;
+				attributeMaterial.cloiWeight = this.viewer.cloiWeight;
 
 				pointcloud.material = attributeMaterial;
 			}

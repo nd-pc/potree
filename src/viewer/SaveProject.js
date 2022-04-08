@@ -196,6 +196,8 @@ function createSettingsData(viewer){
 		// CLOI
 		cloiEnabled: viewer.getCLOIEnabled(),
 		cloiThreshold: viewer.getCLOIThreshold(),
+		cloiWeightEnabled: viewer.getCLOIWeightEnabled(),
+		cloiWeight: viewer.getCLOIWeight(),
 		background: viewer.getBackground(),
 		minNodeSize: viewer.getMinNodeSize(),
 		showBoundingBoxes: viewer.getShowBoundingBox(),
