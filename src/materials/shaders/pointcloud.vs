@@ -873,6 +873,10 @@ void doClipping(){
 		// 0.0, 0.0, 100.0: water
 		float w = cloiWeight;
 		float c = 2.0 * classification[0] * classification[0];
+
+		// I actually wanted to implement the function w / (w^c)
+		// Unfortunately, webGL does not provide a pow function
+		// So this function is crudely approximated by two linear functions.
 		if (c < 1.0)
 			final_imp = imp * (w - ((w - 1.0) * c));
 		else
