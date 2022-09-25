@@ -695,6 +695,10 @@ export class MapView{
 			return;
 		}
 
+		if (pointcloud.pcoGeometry.type == 'copc'){ 
+			return;
+		}
+
 		let url = `${pointcloud.pcoGeometry.url}/../sources.json`;
 		//let response = await fetch(url);
 

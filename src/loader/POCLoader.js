@@ -3,8 +3,8 @@ import * as THREE from "../../libs/three.js/build/three.module.js";
 import {PointCloudOctreeGeometry, PointCloudOctreeGeometryNode} from "../PointCloudOctreeGeometry.js";
 import {Version} from "../Version.js";
 import {XHRFactory} from "../XHRFactory.js";
-import {LasLazLoader} from "./LasLazLoader.js";
-import {BinaryLoader} from "./BinaryLoader.js";
+import {LasLazLoader} from "./poc/LasLazLoader.js";
+import {BinaryLoader} from "./poc/BinaryLoader.js";
 import {Utils} from "../utils.js";
 import {PointAttribute, PointAttributes, PointAttributeTypes} from "./PointAttributes.js";
 

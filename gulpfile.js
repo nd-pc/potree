@@ -37,6 +37,9 @@ let workers = {
 	"LASDecoderWorker": [
 		"src/workers/LASDecoderWorker.js"
 	],
+	"CopcLaszipDecoderWorker": [
+		"src/workers/CopcLaszipDecoderWorker.js"
+	],
 	"EptLaszipDecoderWorker": [
 		"src/workers/EptLaszipDecoderWorker.js"
 	],
@@ -57,7 +60,8 @@ let workers = {
 // we package them together with potree
 let lazyLibs = {
 	"geopackage": "libs/geopackage",
-	"sql.js": "libs/sql.js"
+	"sql.js": "libs/sql.js",	
+	"laz-perf": "libs/laz-perf",
 };
 
 let shaders = [
