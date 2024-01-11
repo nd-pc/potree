@@ -204,7 +204,6 @@ export function loadPointCloud(path, name, callback){
 				}
 			});
 		} else if (path.indexOf('.vpc') > 0) {
-			// TODO: how to handle Veesus Point Cloud as well as Virtual Point Cloud files?
 			VpcLoader.load(path, function(geometry) {
 				if (!geometry) {
 					console.error(new Error(`failed to load point cloud from URL: ${path}`));

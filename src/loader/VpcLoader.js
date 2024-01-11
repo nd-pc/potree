@@ -20,14 +20,13 @@ export class VpcLoader {
 		const geometries = [];
 		const callbackGeom = g => geometries.push(g);
 		for (const url of geometry.linksToCopcFiles) {
-			const urlLowerCase = url.toLowerCase();
 			// TODO: do we have all file formats?
-			if (urlLowerCase.endsWith('.copc.laz')) {
+			if (url.endsWith('.copc.laz')) {
 				await CopcLoader.load(url, callbackGeom)
-			// } else if (urlLowerCase.endsWith('.laz') || urlLowerCase.endsWith('.las')) {
-			// 	// TODO: is this correct?
-			// 	POCLoader.load(url, callbackGeom);
-			} else if (urlLowerCase.endsWith('.cloud.js')) {
+			} else if (url.endsWith('.laz') || url.endsWith('.las')) {
+				// TODO: is this correct?
+				POCLoader.load(url, callback);
+			} else if (url.endsWith('.cloud.js')) {
 				POCLoader.load(url, callbackGeom);
 			}
 		}
@@ -60,6 +59,7 @@ export class VpcLoader {
 		for (const g of geometries) {
 			geometry.add(g);
 		}
+		console.log(geometry.pointAttributes.attributes);
 		let root = new VpcPointCloudTreeNode(geometry);
 		geometry.root = root;
 		geometry.root.load();
@@ -105,6 +105,7 @@ export class PointCloudVpcBaseGeometry extends BaseGeometry {
 
 	async add(geometry) {
 		this.children.push(geometry);
+		console.log(geometry.pointAttributes.attributes);
 
 		for (const attribute of geometry.pointAttributes.attributes) {
 			const name = attribute.name;
