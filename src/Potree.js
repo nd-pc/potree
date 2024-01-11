@@ -204,17 +204,14 @@ export function loadPointCloud(path, name, callback){
 				}
 			});
 		} else if (path.indexOf('.vpc') > 0) {
-			VpcLoader.load(path, function(geometries) {
-				if (!geometries) {
+			// TODO: how to handle Veesus Point Cloud as well as Virtual Point Cloud files?
+			VpcLoader.load(path, function(geometry) {
+				if (!geometry) {
 					console.error(new Error(`failed to load point cloud from URL: ${path}`));
 				}
 				else {
-					const pointclouds = [];
-					for (const geometry of geometries) {
-						const pointcloud = new PointCloudOctree(geometry);
-						pointclouds.push(pointcloud);
-					}
-					resolve({type: 'pointclouds_loaded', pointcloud: pointclouds});
+					const pointcloud = new PointCloudOctree(geometry);
+					resolve({type: 'pointclouds_loaded', pointcloud: pointcloud});
 				}
 			})
 		} else {
