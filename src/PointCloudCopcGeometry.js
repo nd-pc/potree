@@ -21,16 +21,16 @@ export class PointCloudCopcGeometry extends BaseGeometry {
 
 		this.loader = new Potree.CopcLaszipLoader();
 
-		console.group("PointCloudCopcGeometry.constructor")
-		console.log("this...", this)
-		console.groupEnd()
+		// console.group("PointCloudCopcGeometry.constructor")
+		// console.log("this...", this)
+		// console.groupEnd()
 	}
 
 	async loadHierarchyPage(key) {
 		const { Copc, Key } = window.Copc
 		const page = this.pages[Key.toString(key)]
 		const hierarchy = await Copc.loadHierarchyPage(this.getter, page)
-		debugger
+		// debugger
 		return hierarchy
 	}
 };
@@ -66,9 +66,9 @@ export class PointCloudCopcGeometryNode extends PointCloudTreeNode {
 		this.name = U.toPotreeName(this.key);
 		this.index = parseInt(this.name.charAt(this.name.length - 1));
 
-		console.group("PointCloudCopcGeometryNode.constructor")
-		console.log("this...", this)
-		console.groupEnd()
+		// console.group("PointCloudCopcGeometryNode.constructor")
+		// console.log("this...", this)
+		// console.groupEnd()
 	}
 
 	isGeometryNode() { return true; }

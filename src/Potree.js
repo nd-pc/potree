@@ -169,6 +169,10 @@ export function loadPointCloud(path, name, callback){
 				}
 				else {
 					let pointcloud = new PointCloudOctree(geometry);
+					console.group("Potree.loadPointCloud")
+					console.log("geometry...", geometry)
+					console.log("pointcloud...", pointcloud)
+					console.groupEnd()
 					resolve({type: 'pointcloud_loaded', pointcloud: pointcloud});
 				}
 			});

@@ -15,7 +15,7 @@ export class VpcLoader {
 		const vpcGeometries = []
 
 		// start group logging
-		console.group("VpcLoader.load")
+		// console.group("VpcLoader.load")
 
 		// debugger
 		for (const feature of vpc.features){
@@ -29,13 +29,13 @@ export class VpcLoader {
 			baseGeometry.root = new PointCloudCopcGeometryNode(baseGeometry);
 			await baseGeometry.root.load();
 
-			console.log("baseGeometry...", baseGeometry)
+			// console.log("baseGeometry...", baseGeometry)
 			// add this geometry
 			vpcGeometries.push(baseGeometry)
 		}
 
-		console.log("vpcGemometries...", vpcGeometries)
-		console.groupEnd()
+		// console.log("vpcGemometries...", vpcGeometries)
+		// console.groupEnd()
 
 		// return vpc geometry
 		callback(vpcGeometries);

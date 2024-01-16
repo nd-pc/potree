@@ -3,6 +3,7 @@ import {CopcLaszipLoader} from "./loader/ept/LaszipLoader.js"
 
 export class VpcBaseGeometry extends BaseGeometry {
 	static parse(vpc) {
+
 		let xmin, ymin, zmin, xmax, ymax, zmax;
 
 		for(const feature of vpc.features) {
@@ -22,17 +23,17 @@ export class VpcBaseGeometry extends BaseGeometry {
 
 	constructor(vpc,feature) {
 		super(VpcBaseGeometry.parse(vpc))
-		this.type = 'vpc-feature';
+		this.type = 'vpc';
 		this.feature = feature;
 		// use copc loader
 		this.loader = new CopcLaszipLoader()
 		this.featureId = feature.id
 
-		console.group("VpcBaseGeometry.constructor")
-		console.log("vpc...", vpc)
-		console.log("feature.id...", feature.id)
-		console.log("this...", this)
-		console.groupEnd()
+		// console.group("VpcBaseGeometry.constructor")
+		// console.log("vpc...", vpc)
+		// console.log("feature.id...", feature.id)
+		// console.log("this...", this)
+		// console.groupEnd()
 	}
 
 	async loadGetter(){
@@ -45,8 +46,8 @@ export class VpcBaseGeometry extends BaseGeometry {
 
 			this.getter = getter
 			this.copc = copc;
+			this.spacing = copc.info.spacing
 			this.pages = { '0-0-0-0': copc.info.rootHierarchyPage }
-
 			return true
 		}catch(e){
 			return false
@@ -58,10 +59,10 @@ export class VpcBaseGeometry extends BaseGeometry {
 		// debugger
 		const page = this.pages[Key.toString(key)]
 		const hierarchy = await Copc.loadHierarchyPage(this.getter, page)
-		console.group("VpcBaseGeometry.loadHierarchyPage")
-		console.log("key...", key)
-		console.log("hierarchy...", hierarchy)
-		console.groupEnd()
+		// console.group("VpcBaseGeometry.loadHierarchyPage")
+		// console.log("key...", key)
+		// console.log("hierarchy...", hierarchy)
+		// console.groupEnd()
 		return hierarchy
 	}
 };
