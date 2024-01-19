@@ -53,9 +53,7 @@
 				viewer.setLanguage('en');
 				$("#menu_appearance").next().show();
 			});
-			// var path = "../pointclouds/vpc/copc-example-f1.vpc";
-			var path = "../pointclouds/vpc/copc-example-nl.vpc";
-			// var path = "./..\\copc\\TestAmsterdam.2vpc";
+			var path = "./..\\copc\\TestAmsterdam.vpc";
 			var name = "VPC Copc example";
 
 			var getQueryParam = function(name) {
@@ -77,7 +75,7 @@
 			var c = getQueryParam('c');
 			Potree.loadPointCloud(path, name, function(e){
 
-					console.group("vpc-nl.html")
+					console.group("vpc.html")
 					console.log("path...", path)
 					console.log("name...", name)
 					console.log("e.pointclouds", e.pointclouds)
@@ -99,5 +97,15 @@
 					viewer.fitToScreen(1);
 			});
 		</script>
+
+	<!-- <script type="module">
+
+		var path = "../pointclouds/vpc/C_01CZ.vpc";
+		var name = "name";
+
+		Potree.loadPointCloud(path, name, function(e){
+			console.log("callback called");
+		})
+	</script> -->
   </body>
 </html>
