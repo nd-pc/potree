@@ -208,10 +208,18 @@ export class PointCloudOctree extends PointCloudTree {
 		// if(geometryNode.name === "r40206"){
 		//	console.log("creating node for r40206");
 		// }
+
+
 		let sceneNode = new THREE.Points(geometryNode.geometry, this.material);
 		sceneNode.name = geometryNode.name;
 		sceneNode.position.copy(geometryNode.boundingBox.min);
 		sceneNode.frustumCulled = false;
+
+		console.groupCollapsed(`toTreeNode...${geometryNode.name}`)
+		console.log("geometryNode...",geometryNode)
+		console.log("sceneNode...", sceneNode)
+		console.groupEnd()
+
 		sceneNode.onBeforeRender = (_this, scene, camera, geometry, material, group) => {
 			if (material.program) {
 				_this.getContext().useProgram(material.program.program);
@@ -366,7 +374,7 @@ export class PointCloudOctree extends PointCloudTree {
 			}
 
 			let density = node.geometryNode.density;
-			
+
 			if(typeof density === "number" && !Number.isNaN(density)){
 				let lodOffset = Math.log2(density) / 2 - 1.5;
 
@@ -413,7 +421,7 @@ export class PointCloudOctree extends PointCloudTree {
 	}
 
 	deepestNodeAt(position){
-		
+
 		const toObjectSpace = this.matrixWorld.clone().invert();
 
 		const objPos = position.clone().applyMatrix4(toObjectSpace);
@@ -901,11 +909,11 @@ export class PointCloudOctree extends PointCloudTree {
 			}
 		}
 
-		
+
 		// { // DEBUG: show panel with pick image
 		// 	let img = Utils.pixelsArrayToImage(buffer, w, h);
 		// 	let screenshot = img.src;
-		
+
 		// 	if(!this.debugDIV){
 		// 		this.debugDIV = $(`
 		// 			<div id="pickDebug"
@@ -916,7 +924,7 @@ export class PointCloudOctree extends PointCloudTree {
 		// 			"></div>`);
 		// 		$(document.body).append(this.debugDIV);
 		// 	}
-		
+
 		// 	this.debugDIV.empty();
 		// 	this.debugDIV.append($(`<img src="${screenshot}"
 		// 		style="transform: scaleY(-1); width: 300px"/>`));
