@@ -211,7 +211,31 @@ export function loadPointCloud(path, name, callback){
 				}
 				else {
 					const pointcloud = new PointCloudOctree(geometry);
-					resolve({type: 'pointclouds_loaded', pointcloud: pointcloud});
+					const proxy = new Proxy(pointcloud, {
+						get: function(target, prop) {
+							if (prop.includes('root')) {
+								// debugger;
+							}
+							return Reflect.get(target, prop);
+						},
+						set: function(target, prop, value) {
+							if (prop.includes('root')) {
+								const childrenProxy = new Proxy(value.children, {
+									get: function(target, prop) {
+										return Reflect.get(target, prop);
+									},
+									set: function(target, prop, value) {
+										debugger;
+										return Reflect.set(target, prop, value);
+									}
+								});
+								value.children = childrenProxy;
+								// debugger;
+							}
+							return Reflect.set(target, prop, value);
+						}
+					});
+					resolve({type: 'pointclouds_loaded', pointcloud: proxy});
 				}
 			})
 		} else {

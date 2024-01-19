@@ -203,6 +203,9 @@ export class PointCloudOctree extends PointCloudTree {
 	}
 
 	toTreeNode (geometryNode, parent) {
+		console.log(geometryNode);
+		console.log(geometryNode.name);
+		// debugger;
 		let node = new PointCloudOctreeNode();
 
 		// if(geometryNode.name === "r40206"){

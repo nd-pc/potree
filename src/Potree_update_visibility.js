@@ -23,6 +23,7 @@ export function updatePointClouds(pointclouds, camera, renderer){
 	let result = updateVisibility(pointclouds, camera, renderer);
 
 	for (let pointcloud of pointclouds) {
+		// debugger;
 		pointcloud.updateMaterial(pointcloud.material, pointcloud.visibleNodes, camera, renderer);
 		pointcloud.updateVisibleBounds();
 	}
@@ -101,6 +102,7 @@ export function updateVisibilityStructures(pointclouds, camera, renderer) {
 
 
 export function updateVisibility(pointclouds, camera, renderer){
+	// debugger;
 
 	let numVisibleNodes = 0;
 	let numVisiblePoints = 0;
@@ -346,6 +348,7 @@ export function updateVisibility(pointclouds, camera, renderer){
 
 		// add child nodes to priorityQueue
 		let children = node.getChildren();
+		// debugger;
 		for (let i = 0; i < children.length; i++) {
 			let child = children[i];
 
@@ -370,6 +373,7 @@ export function updateVisibility(pointclouds, camera, renderer){
 				let projFactor = (0.5 * domHeight) / (slope * distance);
 				let screenPixelRadius = radius * projFactor;
 				
+				// debugger;
 				if(screenPixelRadius < pointcloud.minimumNodePixelSize){
 					continue;
 				}
