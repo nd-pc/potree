@@ -58,15 +58,15 @@ export class VpcLoader {
 		await Promise.allSettled(loadingPromises);
 
 
-		for (const g of geometries) {
-			geometry.add(g);
-		}
-		let root = new VpcPointCloudTreeNode(geometry);
-		geometry.root = root;
-		geometry.root.load();
-		geometry.spacing = geometries[0].spacing;
+		// for (const g of geometries) {
+		// 	geometry.add(g);
+		// }
+		// let root = new VpcPointCloudTreeNode(geometry);
+		// geometry.root = root;
+		// geometry.root.load();
+		// geometry.spacing = geometries[0].spacing;
 
-		callback(geometry);
+		callback(geometries);
 	}
 }
 export class PointCloudVpcBaseGeometry extends BaseGeometry {
