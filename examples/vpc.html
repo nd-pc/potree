@@ -54,7 +54,7 @@
 				$("#menu_appearance").next().show();
 			});
 	
-			var path = "../pointclouds/vpc/C_01CZ.vpc";
+			var path = "../pointclouds/vpc/AHN/vpc/C_01CZ.vpc";
 			var name = "name";
 	
 			var getQueryParam = function(name) {
@@ -81,10 +81,9 @@
 				material.size = 1;
 				material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
 				if (c) material.activeAttributeName = c;
+				material.activeAttributeName = "elevation";
 	
 				viewer.fitToScreen(0.5);
-
-				material.activeAttributeName = "elevation";
 			});
 		</script>
   </body>
