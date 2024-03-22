@@ -2,7 +2,7 @@ import {PointCloudTreeNode} from "./PointCloudTree.js";
 import {PointAttributes, PointAttribute, PointAttributeTypes} from "./loader/PointAttributes.js";
 import * as THREE from "../libs/three.js/build/three.module.js";
 
-class U {
+export class U {
 	static toVector3(v, offset) {
 		return new THREE.Vector3().fromArray(v, offset || 0);
 	}
@@ -47,7 +47,7 @@ class U {
 	}
 };
 
-class BaseGeometry {
+export class BaseGeometry {
 	constructor({ 
 		cube,
 		boundsConforming,
