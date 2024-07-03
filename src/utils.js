@@ -2,8 +2,8 @@
 import * as THREE from "../libs/three.js/build/three.module.js";
 import {XHRFactory} from "./XHRFactory.js";
 import {Volume} from "./utils/Volume.js";
-//import {Profile} from "./utils/Profile.js";
-//import {Measure} from "./utils/Measure.js";
+import {Profile} from "./utils/Profile.js";
+import {Measure} from "./utils/Measure.js";
 import {PolygonClipVolume} from "./utils/PolygonClipVolume.js";
 
 export class Utils {
@@ -198,13 +198,12 @@ export class Utils {
 	static computeTransformedBoundingBox (box, transform) {
 		let vertices = [
 			new THREE.Vector3(box.min.x, box.min.y, box.min.z).applyMatrix4(transform),
-			new THREE.Vector3(box.min.x, box.min.y, box.min.z).applyMatrix4(transform),
 			new THREE.Vector3(box.max.x, box.min.y, box.min.z).applyMatrix4(transform),
 			new THREE.Vector3(box.min.x, box.max.y, box.min.z).applyMatrix4(transform),
-			new THREE.Vector3(box.min.x, box.min.y, box.max.z).applyMatrix4(transform),
-			new THREE.Vector3(box.min.x, box.max.y, box.max.z).applyMatrix4(transform),
 			new THREE.Vector3(box.max.x, box.max.y, box.min.z).applyMatrix4(transform),
+			new THREE.Vector3(box.min.x, box.min.y, box.max.z).applyMatrix4(transform),
 			new THREE.Vector3(box.max.x, box.min.y, box.max.z).applyMatrix4(transform),
+			new THREE.Vector3(box.min.x, box.max.y, box.max.z).applyMatrix4(transform),
 			new THREE.Vector3(box.max.x, box.max.y, box.max.z).applyMatrix4(transform)
 		];
 
