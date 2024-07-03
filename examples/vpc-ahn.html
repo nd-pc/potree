@@ -54,7 +54,7 @@
 				$("#menu_appearance").next().show();
 			});
 	
-			var path = "../pointclouds/vpc/ahn3_test_1.copc.vpc";
+			var path = "../pointclouds/vpc/ahn3_focus.copc.vpc";
 			var name = "AHN3";
 	
 			var getQueryParam = function(name) {
@@ -81,7 +81,7 @@
 					viewer.scene.addPointCloud(pointcloud);
 
 					let material = pointcloud.material;
-                    //material.minSize = 2.0;
+                    material.minSize = 2.0;
                     material.shape = Potree.PointShape.CIRCLE;
                     material.size = 0.8;
 					material.pointSizeType = Potree.PointSizeType.ADAPTIVE;

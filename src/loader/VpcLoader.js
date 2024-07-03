@@ -25,9 +25,14 @@ export class VpcLoader {
             const callbackGeom = g => node.geometry = g;
 
 			// TODO: we need to support more file formats, such as las and laz.
+            // It seems like the supplied loader for las/laz does not work.
 			if (urlLowerCase.endsWith('.copc.laz')) {
 				await CopcLoader.load(node.url, callbackGeom);
-			} else {
+			// } else if (urlLowerCase.endsWith('.las')) {
+            //     await LasLazLoader.load(node.url, callbackGeom);
+            // } else if (urlLowerCase.endsWith('.laz')) {
+            //     await LasLazLoader.load(node.url, callbackGeom);
+            } else {
 				console.warn(`Format not supported: ${node.url}`);
 			}
 		}

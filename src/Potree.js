@@ -134,7 +134,7 @@ export function loadPointCloud(path, name, callback){
 		if (Array.isArray(e.pointcloud)) {
 			let idx = 0;
 			for (const pointcloud of e.pointcloud) {
-                if (pointcloud.name.charAt(0) = '!') {
+                if (pointcloud.name.charAt(0) === '!') {
                     pointcloud.name = pointcloud.name.substring(1);
                 }
                 else {
@@ -239,9 +239,9 @@ export function loadPointCloud(path, name, callback){
 						if (!node || !node.geometry) {
 							continue;
 						}
+                        
 						const pointcloud = new PointCloudOctree(node.geometry);
                         pointcloud.name = "!" + name + "_" + node.id;
-                        console.info(`load VPC with id: ${node.id}   to scene: ${pointcloud.name}`); // TODO remove
 
 						minRange = minRange === undefined ? pointcloud.material.elevationRange[0] : Math.min(minRange, pointcloud.material.elevationRange[0]);
 						maxRange = maxRange === undefined ? pointcloud.material.elevationRange[1] : Math.min(maxRange, pointcloud.material.elevationRange[1]);
