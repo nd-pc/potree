@@ -74,20 +74,20 @@
 			}
 	
 			var c = getQueryParam('c');
-            var elevationRange = null;
-            elevationRange = [-20, 220];
+			var elevationRange = null;
+			elevationRange = [-20, 220];
 			Potree.loadPointCloud(path, name, function(e){
 				for (const pointcloud of e.pointcloud) {
 					viewer.scene.addPointCloud(pointcloud);
 
 					let material = pointcloud.material;
-                    material.minSize = 2.0;
-                    material.shape = Potree.PointShape.CIRCLE;
-                    material.size = 0.8;
+					material.minSize = 2.0;
+					material.shape = Potree.PointShape.CIRCLE;
+					material.size = 0.8;
 					material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
 					if (c) material.activeAttributeName = c;
-                    else material.activeAttributeName = "elevation";
-                    if (elevationRange != null) material.elevationRange = elevationRange;
+					else material.activeAttributeName = "elevation";
+					if (elevationRange != null) material.elevationRange = elevationRange;
 		
 					viewer.fitToScreen(0.5);
 				}

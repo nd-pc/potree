@@ -134,13 +134,13 @@ export function loadPointCloud(path, name, callback){
 		if (Array.isArray(e.pointcloud)) {
 			let idx = 0;
 			for (const pointcloud of e.pointcloud) {
-                if (pointcloud.name.charAt(0) === '!') {
-                    pointcloud.name = pointcloud.name.substring(1);
-                }
-                else {
-				    pointcloud.name = name + idx.toString();
-				    idx += 1;
-                }
+				if (pointcloud.name.charAt(0) === '!') {
+					pointcloud.name = pointcloud.name.substring(1);
+				}
+				else {
+					pointcloud.name = name + idx.toString();
+					idx += 1;
+				}
 			}
 		} else {
 			e.pointcloud.name = name;
@@ -229,7 +229,7 @@ export function loadPointCloud(path, name, callback){
 			// 	}
 			// });
 
-            VpcLoader.load(path, function(nodes) {
+			VpcLoader.load(path, function(nodes) {
 				if (!nodes) {
 					console.error(new Error(`failed to load point cloud from URL: ${path}`));
 				} else {
@@ -239,9 +239,9 @@ export function loadPointCloud(path, name, callback){
 						if (!node || !node.geometry) {
 							continue;
 						}
-                        
+						
 						const pointcloud = new PointCloudOctree(node.geometry);
-                        pointcloud.name = "!" + name + "_" + node.id;
+						pointcloud.name = "!" + name + "_" + node.id;
 
 						minRange = minRange === undefined ? pointcloud.material.elevationRange[0] : Math.min(minRange, pointcloud.material.elevationRange[0]);
 						maxRange = maxRange === undefined ? pointcloud.material.elevationRange[1] : Math.min(maxRange, pointcloud.material.elevationRange[1]);
