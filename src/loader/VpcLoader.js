@@ -1,39 +1,48 @@
 import {CopcLoader} from './EptLoader';
 
+export class VpcNode {
+    constructor(id, url, geometry) {
+        this.id = id;
+        this.url = url;
+        this.geometry = geometry;
+    }
+}
+
 export class VpcLoader {
 	static async load(file, callback) {
 		const response = await fetch(file)
 		if(!response.ok) {
-			console.error(`Failed to load file form ${file}`);
+			console.error(`Failed to load file from ${file}`);
 			callback(null);
 			return;
 		}
 
 		const json = await response.json();
 
-		const geometries = [];
-		const urls = extractHrefs(json);
-		const callbackGeom = g => geometries.push(g);
-		for (const url of urls) {
-			const urlLowerCase = url.toLowerCase();
-			// TODO: we need to support more file formats
+		const nodes = extractNodes(json);
+		for (const node of nodes) {
+			const urlLowerCase = node.url.toLowerCase();
+            const callbackGeom = g => node.geometry = g;
+
+			// TODO: we need to support more file formats, such as las and laz.
 			if (urlLowerCase.endsWith('.copc.laz')) {
-				await CopcLoader.load(url, callbackGeom);
+				await CopcLoader.load(node.url, callbackGeom);
 			} else {
-				console.warn(`Format not supported: ${url}`);
+				console.warn(`Format not supported: ${node.url}`);
 			}
 		}
 
-		callback(geometries);
+		callback(nodes);
 	}
 }
 
-function extractHrefs(json) {
+function extractNodes(json) {
 	const result = [];
 
 	for (const feature of json.features) {
+        const id = feature.id;
 		const url = feature.assets.data.href;
-		result.push(url);
+		result.push(new VpcNode(id, url, null));
 	}
 
 	return result;
